@@ -6,3 +6,6 @@ cd spa
 npm i lodash jotai uuid buffer -S
 npm i @mui/lab @mui/material @emotion/react @emotion/styled @mui/icons-material @fontsource/roboto -S
 npm i epubjs react-router-dom localforage -S
+<!-- on second thought, not need this -->
+npm uninstall localforage -S
+lldb --file ./dist/darwin20/bin/ebook

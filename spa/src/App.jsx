@@ -6,9 +6,10 @@ import Files from './Files'
 import Books from './Books'
 import _ from 'lodash'
 import { useAtom } from 'jotai'
-import { fileAtom, uploadAtom, uploadCountAtom } from './atom'
+import { isListAtom, fileAtom, uploadAtom, uploadCountAtom } from './atom'
 import './App.css'
 import util from "./util";
+import handle_epub from "./EpubInfo";
 function ws_uri() {
   let loc = window.location, ws_uri, h = loc.host;
   if (loc.protocol === "https:") {
@@ -35,6 +36,7 @@ function progress_cap(f) {
 }
 function App() {
   const [, setFile] = useAtom(fileAtom)
+  const [isList] = useAtom(isListAtom)
   const [upload, setUpload] = useAtom(uploadAtom)
   const [count, setCount] = useAtom(uploadCountAtom)
   // const [count, setCount] = useState(_.size(upload));
@@ -44,11 +46,13 @@ function App() {
     const ws = new WebSocket(ws_uri());
     ws.onmessage = function (event) {
       try {
+        // console.log('recieved data from ws')
         const data = JSON.parse(event.data)
         // console.log(data)
+        handle_epub(data)
         setFile(data)
       } catch (err) {
-        console.log(event.data)
+        console.log(err, event.data)
       }
     };
     //clean up function
@@ -63,9 +67,9 @@ function App() {
   )
   // console.log(`progressBars=`,progressBars)
   return (
-    <>
+    <Box sx={{backgroundColor: 'lightgray', minHeight: '100vh'}}>
       <AppBar />
-      {true ? <Files /> : <Books />}
+      {isList ? <Files /> : <Books />}
       <Drawer
         anchor='bottom'
         open={count > 0}
@@ -80,7 +84,7 @@ function App() {
           {progressBars}
         </Box>
       </Drawer>
-    </>
+    </Box>
   )
 }
 

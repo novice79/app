@@ -3,6 +3,7 @@ import { useAtom } from 'jotai'
 import { fileAtom, filterAtom } from './atom'
 import Box from '@mui/material/Box';
 import { Download, Delete } from '@mui/icons-material';
+import DeleteDialog from './DeleteDialog'
 import util from "./util";
 
 
@@ -30,23 +31,20 @@ export default function Files() {
                         `http://192.168.0.60:8888/store/${fi.name}` 
                         :`/store/${fi.name}`} download={fi.name}
                         target="_blank" rel="noopener noreferrer"><Download sx={{ mr: 1 }}/></a>
-                    <Delete sx={{ mr: 1 }} onClick={()=>{
-                        const msg = `Are you sure to delete:\n${fi.name}`
-                        if (confirm(msg) == true) {
+                    <DeleteDialog title={"Are you sure to delete:"} content={fi.name} 
+                        okCB={()=>{
                             const url = import.meta.env.DEV? 
                             `http://192.168.0.60:8888/del` 
                             :`/del`
                             util.post_data(url, fi.path);
-                        } else {
-
-                        }
                     }}/>
+       
                 </Box>
             </Box>
         </React.Fragment>
     );
     return (
-        <Box sx={{ width: '100%', marginTop: '4.1rem'}}>
+        <Box sx={{ width: '100%', pt: '3rem'}}>
             {listItems}
         </Box>
     );

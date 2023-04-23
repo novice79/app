@@ -71,7 +71,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     # using Visual Studio C++
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/WHOLEARCHIVE" )
 endif()
-install(FILES "${CMAKE_CURRENT_LIST_DIR}/../misc/magic.mgc" DESTINATION bin)
+# install(FILES "${CMAKE_CURRENT_LIST_DIR}/../misc/magic.mgc" DESTINATION bin)
 
 
 

@@ -2,18 +2,16 @@ import { useState, useEffect, useRef } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import StoreIcon from '@mui/icons-material/Store';
+import { Store, Upload, List } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
-import UploadIcon from '@mui/icons-material/Upload';
 import { useAtom } from 'jotai'
-import { uploadAtom, uploadCountAtom } from './atom'
+import { isListAtom, uploadAtom, uploadCountAtom } from './atom'
 import SearchBar from './SearchBar'
 import _ from 'lodash'
 import util from "./util";
 export default function IconAppBar() {
   const inputFileRef = useRef( null );
+  const [ isList, setIsList ] = useAtom(isListAtom)
   const [ upload, setUpload ] = useAtom(uploadAtom)
   const [ count, setCount ] = useAtom(uploadCountAtom)
   let url = '/upload';
@@ -48,35 +46,44 @@ export default function IconAppBar() {
     e.target.files = null
   }
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <StoreIcon sx={{ fontSize: 43, pr : 1.7 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Files
-          </Typography>
-          <SearchBar/>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            // sx={{ mr: 1.5 }}
-            onClick={()=>{
-              inputFileRef.current.click();
-            }}
-          >
-            <UploadIcon />
-          </IconButton>
-          
-          <input type="file" multiple
-            accept=".epub"
-            ref={inputFileRef} 
-            onChange={processFile}
-            hidden
-          />
-        </Toolbar>
-      </AppBar>
+    <Box sx={{
+      bgcolor: 'primary.main', height: '3rem', 
+      display: 'flex', alignItems: 'center',
+      position: 'fixed', width: '100%', zIndex: 9
+      }}>
+        <Store sx={{ fontSize: '2.5rem', pr : 1.7 }} />
+        <SearchBar/>
+        <Box sx={{ 
+          flexGrow: 1, mr: 1.5,
+          display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}
+          onClick={()=>{
+            setIsList(l=> !l)
+          }}
+        >
+          <List sx={ isList && {
+            border: '3px inset',
+            backgroundColor: 'grey'
+          } || {}} size="large"/>
+        </Box>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          // sx={{ mr: 1.5 }}
+          onClick={()=>{
+            inputFileRef.current.click();
+          }}
+        >
+          <Upload/>
+        </IconButton>
+        
+        <input type="file" multiple
+          accept=".epub"
+          ref={inputFileRef} 
+          onChange={processFile}
+          hidden
+        />
     </Box>
   );
 }

@@ -1,0 +1,22 @@
+button.toc{
+    user-select: none;
+    appearance: none;
+    background: none;
+    border: none;
+    display: block;
+    font-family: sans-serif;
+    width: 100%;
+    font-size: .9em;
+    text-align: left;
+    padding: .9em 1em;
+    border-bottom: 2px solid #ddd;
+    color: #555;
+    outline: none;
+    cursor: pointer;
+}
+button.toc.active{
+    font-size: 1.1em;
+    background: gray;
+    color: white;
+    border-radius: .5rem;
+}
