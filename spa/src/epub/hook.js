@@ -16,6 +16,7 @@ function interceptClickEvent(rendition, e) {
 }
 
 export default function linkInterceptor(content, rendition){
+    content.addStylesheet("/css/font.css")
     const aEle = content.document.getElementsByTagName('a')
     const items = Array.prototype.slice.call(aEle);
     items.forEach( item=>{

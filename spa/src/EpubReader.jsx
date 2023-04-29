@@ -12,9 +12,8 @@ export default function EpubReader() {
     <>
       <div style={{ height: '100vh' }}>
         <Reader 
-          url={currentBook.url} 
+          currentBook={currentBook} 
           backClicked={()=>navigate('/')}
-          title={currentBook.title}
         />
       </div>
     </>

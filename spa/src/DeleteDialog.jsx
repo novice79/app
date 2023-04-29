@@ -6,11 +6,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import { useTranslation } from 'react-i18next';
 export default function DeleteDialog(props) {
     const { sx, title, content, okCB } = props;
     const [open, setOpen] = useState(false);
-
+    const { t, i18n } = useTranslation();
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -39,12 +39,12 @@ export default function DeleteDialog(props) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClose}>{t('cancel')}</Button>
                     <Button onClick={()=>{
                         okCB()
                         handleClose()
                     }} autoFocus>
-                        Yes
+                        {t('yes')}
                     </Button>
                 </DialogActions>
             </Dialog>

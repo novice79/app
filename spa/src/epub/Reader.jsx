@@ -18,8 +18,8 @@ import linkInterceptor from './hook'
 
 
 
-export default function Reader(props) {
-  const {url, backClicked, title} = props;
+export default function Reader({currentBook, backClicked}) {
+  const {url, title, author, publisher} = currentBook;
   const readerRef = useRef(), renditionRef = useRef()
   const cifiRef = useRef()
   const [size, setSize] = useState( parseInt(localStorage.getItem('font-size')) || 100)
@@ -32,7 +32,7 @@ export default function Reader(props) {
   const [location, setLocation] = useState(null)
 
   useEffect(() => {
-    const cifi = localStorage.getItem('book-name')
+    const cifi = localStorage.getItem(`${title}-${author}`)
     cifiRef.current = cifi
     setLocation(cifi)
   }, []);
@@ -45,7 +45,10 @@ export default function Reader(props) {
     renditionRef.current.start()
     localStorage.setItem('book-theme', t)
   }
-
+  function fontFamilySelected(ff){
+    localStorage.setItem('font-family', ff)
+    renditionRef.current.themes.font(ff)
+  }
   useEffect(() => {
     if (renditionRef.current) {
       renditionRef.current.themes.fontSize(`${size}%`)
@@ -53,7 +56,7 @@ export default function Reader(props) {
   }, [size])
   const locationChanged = cifi => {
     cifiRef.current = cifi
-    localStorage.setItem('book-name', cifi)
+    localStorage.setItem(`${title}-${author}`, cifi)
     // console.log('setItem ', bc)
   }
   function tocIconClicked(){
@@ -123,7 +126,7 @@ export default function Reader(props) {
         display: 'flex', flexDirection: 'column',
         position: 'relative' }}
       >
-        <Box sx={{bgcolor: 'primary.main', height: '3rem', display: 'flex', alignItems: 'center'}}>
+        <Box sx={{bgcolor: '#222', height: '3rem', display: 'flex', alignItems: 'center'}}>
             <ArrowBack 
               onClick={backClicked}
               sx={{ fontSize: '2rem', ml: 3, color: 'white', cursor: 'pointer' }} 
@@ -132,7 +135,7 @@ export default function Reader(props) {
             <FontMenu size={size} changeSize={changeSize} themeSelected={themeSelected}
               showMenu={showMenu} fontIconClicked={()=>{
                 setShowMenu(p=>!p)
-              }}
+              }} fontFamilySelected={fontFamilySelected}
             />
             
             <TocIcon sx={{ fontSize: '2rem', mr: 3, color: 'white', cursor: 'pointer' }} 
@@ -159,6 +162,8 @@ export default function Reader(props) {
               renditionRef.current.themes.select(theme)
               renditionRef.current.themes.fontSize(`${size}%`)
               r.hooks.content.register(linkInterceptor)
+              const ff = localStorage.getItem('font-family')
+              renditionRef.current.themes.font(ff)
             }}
             loadingView={<LoadingView/>}
             tocChanged={setToc}

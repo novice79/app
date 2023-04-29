@@ -5,11 +5,12 @@ import Box from '@mui/material/Box';
 import { Download, Delete } from '@mui/icons-material';
 import DeleteDialog from './DeleteDialog'
 import util from "./util";
-
+import { useTranslation } from 'react-i18next';
 
 export default function Files() {
     const [ files, setFile ] = useAtom(fileAtom)
     const [ filterTxt, setFilterTxt ] = useAtom(filterAtom)
+    const { t, i18n } = useTranslation();
     const listItems = files
         .filter(fi=>filterTxt? fi.name.includes(filterTxt) && fi : fi)
         .map( fi =>
@@ -31,7 +32,7 @@ export default function Files() {
                         `http://192.168.0.60:8888/store/${fi.name}` 
                         :`/store/${fi.name}`} download={fi.name}
                         target="_blank" rel="noopener noreferrer"><Download sx={{ mr: 1 }}/></a>
-                    <DeleteDialog title={"Are you sure to delete:"} content={fi.name} 
+                    <DeleteDialog title={t("you-sure")} content={fi.name} 
                         okCB={()=>{
                             const url = import.meta.env.DEV? 
                             `http://192.168.0.60:8888/del` 

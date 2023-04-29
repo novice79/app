@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { FormatSize, TextIncrease, TextDecrease } from '@mui/icons-material';
 
-
+import FontSelect from './FontSelect'
 export default function FontMenu(props) {
     const {
-        size, changeSize, themeSelected, 
+        size, changeSize, themeSelected, fontFamilySelected,
         showMenu, fontIconClicked
     } = props
     
@@ -57,7 +57,8 @@ export default function FontMenu(props) {
                     />
                 
                 </div>
-            
+                <hr/>
+                <FontSelect fontFamilySelected={fontFamilySelected}/>
             </div>
         </div>
     )

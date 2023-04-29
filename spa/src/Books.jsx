@@ -22,7 +22,7 @@ export default function Books() {
                 border: '3px outset', cursor: 'pointer',
                 position: 'relative', margin: '.4rem', maxHeight: '290px', maxWidth: '200px' 
             }}>
-                <img src={fi.cover?fi.cover:'/cover.jpg'}></img>
+                <img style={{maxWidth: 200, maxHeight: 200}} src={fi.cover?fi.cover:'/cover.jpg'}></img>
                 <Box sx={{ 
                     position: 'absolute', bottom: 0, textAlign: 'center', 
                     backgroundColor: 'black', color: 'white', opacity: 0.7,

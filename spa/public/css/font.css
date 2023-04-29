@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "LiSu";
+  font-style: normal;
+  size-adjust: 120%;
+  src: url('/fonts/LiSu.woff') format('woff');
+}
+@font-face {
+  font-family: "AaQLJSXLS";
+  font-style: normal;
+  src: url('/fonts/AaQLJSXLS.woff') format('woff');
+}
+
+* {
+  transition: transform 0.5s ease;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+} 

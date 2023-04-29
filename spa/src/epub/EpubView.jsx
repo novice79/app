@@ -64,6 +64,7 @@ function EpubView(props, ref) {
       flow: "paginated",
       width: "100%",
       height: "100%",
+      allowScriptedContent: true,
       snap: true
     })
     registerEvents()

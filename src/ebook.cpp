@@ -40,17 +40,22 @@ void Ebook::check_file_update()
     {
         auto& p{x.path()};
         if( !fs::is_regular_file(p)) continue;
+        // format fs::path not need quote, where std::string need quote
         auto sql{boost::format("select time from files where path=%1%") % p};
         auto r{db->exec_sql(sql.str())["result"].as_array()};
         // File creation
         if(r.empty()) {
+            // logger->debug( "【%1%】\nnot exist in DB, insert it\n", p.string() );
             file_to_db(p.string());
             broadcast();
         } else {
             auto time_in_db{json::value_to<std::string>( r[0].as_object().at("time") )};
             auto time_on_file{time_to_str(fs::last_write_time(p))};
+            
             // File modification
             if(time_in_db != time_on_file) {
+                // logger->debug( "【%3%】\nchanged time_in_db=%1%; time_on_file=%2%. Update info in DB", 
+                //     time_in_db, time_on_file, p.string() );
                 file_to_db(p.string());
                 broadcast();
             }
@@ -59,21 +64,23 @@ void Ebook::check_file_update()
 }
 void Ebook::file_to_db(std::string path)
 {
+    // cout<< fm->file_info(path) <<endl;
     auto fi{fm->file_info(path)[0].as_object()};
     boost::format sql(R"(
         replace into files ( path ,name, type, time, size, ext)
-        values (%1%, %2%, %3%, %4%, %5%, %6%);
+        values ('%1%', '%2%', '%3%', '%4%', %5%, '%6%');
     )");
-
-    db->exec_sql(boost::str(
+    auto sql_str{boost::str(
         sql 
-        % fi["path"]
-        % fi["name"]
-        % fi["type"]
-        % fi["time"]
-        % fi["size"]
-        % fi["ext"]
-    ));
+        % json::value_to<std::string>(fi["path"])
+        % json::value_to<std::string>(fi["name"])
+        % json::value_to<std::string>(fi["type"])
+        % json::value_to<std::string>(fi["time"])
+        % json::value_to<uint64_t>(fi["size"])
+        % json::value_to<std::string>(fi["ext"])
+    )};
+    // cout<<"sql_str="<< sql_str << endl;
+    db->exec_sql(sql_str);
 }
 void Ebook::start()
 {

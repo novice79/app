@@ -47,7 +47,7 @@ export default function IconAppBar() {
   }
   return (
     <Box sx={{
-      bgcolor: 'primary.main', height: '3rem', 
+      bgcolor: '#222', height: '3rem', color: 'white',
       display: 'flex', alignItems: 'center',
       position: 'fixed', width: '100%', zIndex: 9
       }}>
