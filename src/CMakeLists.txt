@@ -1,13 +1,20 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(ebook)
+project(app)
 
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 20)
 # use all static lib
 set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+message("CMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}")
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+# or if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    message("build on linux, so link statically to musl")
+    set(CMAKE_EXE_LINKER_FLAGS "-static ")
+else()
+
 endif()
 
 # include_directories(${CMAKE_SOURCE_DIR})

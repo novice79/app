@@ -4,17 +4,16 @@ set -e
 
 scirptName=$0
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        PRBUILT="/data/clib-prebuilt/linux"
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-        PRBUILT="$HOME/clib-prebuilt/macos"
-elif [[ "$OSTYPE" == "win32" ]]; then
-    :
+ostype=$(uname)
+if [[ "$ostype" == "Linux"* ]]; then
+    PRBUILT="/data/clib-prebuilt/linux/x86_64"
+elif [[ "$ostype" == "Darwin"* ]]; then
+    PRBUILT="$HOME/clib-prebuilt/macos"
 else
     :
 fi
-dir="_build/$OSTYPE"
-PREFIX="dist/$OSTYPE"
+dir="$PWD/_build"
+PREFIX="$PWD/dist"
 
 # build app
 cmake -GNinja -H"src" -B$dir \
@@ -27,7 +26,7 @@ cmake --install $dir
 
 # cd spa && npm i && npm run build
 # cd -
-
+cp -r $PWD/dist/www $PWD/dist/bin/
 printf "\nFYI:\n"
-echo "please run: ./dist/$OSTYPE/bin/ebook"
-echo "and then use browser open http://localhost:8888/ to test spa app"
+echo "please run: ./dist/bin/app"
+echo "and then use browser open http://localhost:7777/ to test spa app"

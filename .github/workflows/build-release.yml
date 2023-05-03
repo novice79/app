@@ -1,0 +1,129 @@
+name: build-release
+
+on:
+  push:
+    branches: [ "**" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Set current date time as env variable
+        run: echo "NOW=v$(date +'%Y%m%d')" >> $GITHUB_ENV
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.NOW }}
+          release_name: Release at ${{ env.NOW }}
+          body: |
+            Auto build app for
+            - macos_aarch64
+            - macos_x64
+            - linux_armv7
+            - linux_aarch64
+            - linux_x86_64
+          draft: false
+          prerelease: false
+
+  build_app_release:
+    name: Build app release
+    needs: create_release
+    runs-on: ubuntu-latest
+    container:
+      image: novice/build:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build app and zip it
+        run: ./dist.sh
+      - name: Upload linux build assets
+        id: upload_linux_assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/_build/socks5.zip
+          asset_name: socks5-linux.zip
+          asset_content_type: application/octet-stream
+
+  build_macos_win64_release:
+    name: Build macos and win64 release
+    needs: create_release
+    strategy:
+      matrix:
+        os: [ macos-latest ]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install build tools
+        run: |
+          brew install mingw-w64 ninja
+
+      - name: Download and build boost for macos
+        run: |
+          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.7z
+          7z x boost_1_80_0.7z
+          cd boost_1_80_0
+          ./bootstrap.sh
+          ./b2 --prefix=$HOME/clib-prebuilt/macos \
+          --build-dir=/tmp \
+          --with-json --with-system --with-filesystem --with-log \
+          cxxstd=20 variant=release link=static threading=multi install 
+      
+      - name: Build boost for windows_x64
+        run: |
+          echo "using gcc :  : x86_64-w64-mingw32-g++ ;" > $HOME/win64.jam
+          ls -alh
+          cd boost_1_80_0
+          ./b2 --user-config=$HOME/win64.jam \
+          --prefix=$HOME/clib-prebuilt/win64 target-os=windows \
+          --build-dir=/tmp \
+          --with-json --with-system --with-filesystem --with-log \
+          cxxstd=20 address-model=64 variant=release link=static threading=multi install
+
+      - name: Build socks5 server for macos
+        run: ./build.sh
+
+      - name: Build socks5 server for windows_x64
+        run: ./build-win64.sh
+
+      - name: Upload macos build assets
+        id: upload_macos_assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/_build/socks5.zip
+          asset_name: socks5-macos.zip
+          asset_content_type: application/octet-stream
+# delete previous release
+# brew install gh
+# gh release delete refs/heads/master
+# git ls-remote --tags origin
+# git push --delete origin refs/tags/refs/heads/master
+# git push origin :refs/tags/refs/heads/master
+      - name: Upload windows build assets
+        id: upload_win64_assets
+        uses: actions/upload-release-asset@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/_build_win64/socks5.zip
+          asset_name: socks5-win64.zip
+          asset_content_type: application/octet-stream
+      
