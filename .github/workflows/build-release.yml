@@ -16,10 +16,12 @@ jobs:
       - name: Set release tag env
         run: |
           BRANCH=${GITHUB_REF##*/}
-          echo "TagName=v1.0-$BRANCH" >> $GITHUB_ENV
+          TAG="v1.0-$BRANCH"
+          echo "TagName=$TAG" >> $GITHUB_ENV
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "::notice::TagName=$TAG"
       - name: Build app and zip it
-        run: ./pack.sh ${{ env.TagName }}
+        run: ./pack.sh ${{ env.BRANCH }}
       - name: Upload linux build assets
         uses: svenstaro/upload-release-action@v2
         with:

@@ -11,6 +11,6 @@ case "$1" in
       ;;
   esac
 # $scirptName prefix=$HOME/clib-prebuilt/linux
-# $PWD/linux/armv7-ctng-linux-musleabihf.sh $@
-# $PWD/linux/aarch64-ctng-linux-musl.sh $@
+$PWD/linux/armv7-ctng-linux-musleabihf.sh $@
+$PWD/linux/aarch64-ctng-linux-musl.sh $@
 $PWD/linux/x86_64-ctng-linux-musl.sh $@

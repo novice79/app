@@ -21,7 +21,7 @@ cmake -GNinja -H"src" -B$dir \
 -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN_FILE" \
 -DCMAKE_FIND_ROOT_PATH="$PREFIX;$PRBUILT" \
 -DCMAKE_INSTALL_PREFIX=$appPrefix \
--DCMAKE_BUILD_TYPE=Debug 
+-DCMAKE_BUILD_TYPE=Release 
 
 cmake --build $dir
 cmake --install $dir
