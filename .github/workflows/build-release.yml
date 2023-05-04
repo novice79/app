@@ -12,13 +12,25 @@ jobs:
     container:
       image: novice/build:latest
     steps:
-      - name: Set release tag env
+      - name: Set release env vars
         run: |
           BRANCH=${GITHUB_REF##*/}
           TAG="v1.0-$BRANCH"
           echo "TagName=$TAG" >> $GITHUB_ENV
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "::notice::TagName=$TAG"
+          NOTES=$(cat << EOF
+          Auto build app for:
+          - macos_aarch64
+          - macos_x64
+          - linux_armv7
+          - linux_aarch64
+          - linux_x86_64
+          EOF
+          )
+          echo "NOTES<<EOF" >> $GITHUB_ENV
+          echo "$NOTES" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Build app and zip it
@@ -27,9 +39,11 @@ jobs:
           ./pack.sh ${{ env.BRANCH }}
       - name: Upload linux build assets
         run: |
-          gh release delete ${{ env.TagName }} -y
+          if gh release list | grep -q ${{ env.TagName }}; then
+            gh release delete ${{ env.TagName }} -y
+          fi
           gh release create ${{ env.TagName }} \
-          --notes "Auto build app for [macos_aarch64|macos_x64|linux_armv7|linux_aarch64|linux_x86_64]" \
+          --notes ${{ env.NOTES }} \
           ./*.7z
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

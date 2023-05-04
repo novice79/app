@@ -9,6 +9,10 @@ cd spa && npm i && npm run build && cd ..
 
 mkdir -p $appName
 mv -v dist/www $appName/
+cat > readme.txt << EOF
+1. run ./app
+2. use web browser open http://this-machine-ip:listening-port to use it
+EOF
 cp -f dist/linux/armv7/bin/app $appName/
 7z a $appName-linux-armv7.7z $appName
 cp -f dist/linux/aarch64/bin/app $appName/
