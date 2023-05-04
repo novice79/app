@@ -31,7 +31,7 @@ async function book_metadata(url, path) {
 async function handle_epub(files) {
     for (const fi of files) {
         // console.log(fi);
-        if (fi.epub) continue;
+        if (fi.epub || ! fi.type.includes("epub")) continue;
         let url = import.meta.env.DEV ?
             `http://192.168.0.60:8888/store/${fi.name}`
             : `/store/${fi.name}`;

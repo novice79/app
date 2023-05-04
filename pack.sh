@@ -11,6 +11,7 @@ mkdir -p $appName
 mv -v dist/www $appName/
 cat > $appName/readme.txt << EOF
 1. run ./app
+    P.S: If blocked on macos, you can open it in[System Settings --> Privacy & Security] Click "open anyway"
 2. use web browser open http://this-machine-ip:listening-port to use it
 EOF
 cp -f dist/linux/armv7/bin/app $appName/

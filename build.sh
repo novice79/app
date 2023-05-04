@@ -13,6 +13,7 @@ else
     :
 fi
 dir="$PWD/_build"
+[[ $# > 0 ]] && echo "rebuild app" && rm -rf $dir
 PREFIX="$PWD/dist"
 
 # build app
@@ -24,8 +25,8 @@ cmake -GNinja -H"src" -B$dir \
 cmake --build $dir
 cmake --install $dir
 
-# cd spa && npm i && npm run build
-# cd -
+cd spa && npm i && npm run build
+cd -
 cp -r $PWD/dist/www $PWD/dist/bin/
 printf "\nFYI:\n"
 echo "please run: ./dist/bin/app"
