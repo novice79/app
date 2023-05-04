@@ -33,7 +33,7 @@ jobs:
             - linux_aarch64
             - linux_x86_64
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./*.7z
+          file: ${{ github.workspace }}/*.7z
           tag: ${{ env.TagName }}
           overwrite: true
           file_glob: true

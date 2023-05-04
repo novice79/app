@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e 
+# This script supposed to be called by github action
 appName="$1"
 echo "appName=$appName"
 ./linux_build.sh
@@ -18,3 +19,5 @@ cp -f dist/macos-aarch64/bin/app $appName/
 7z a $appName-macos-aarch64.7z $appName
 cp -f dist/macos-x86_64/bin/app $appName/
 7z a $appName-macos-x86_64.7z $appName
+
+ls -lh *.7z
