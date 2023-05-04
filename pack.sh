@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 set -e 
+appName="$1"
+echo "appName=$appName"
 ./linux_build.sh
 ./macos-build-on-linux.sh
 cd spa && npm i && npm run build && cd ..
-appName="$(git branch --show-current)"
+
 mkdir -p $appName
 mv -v dist/www $appName/
 cp -f dist/linux/armv7/bin/app $appName/
