@@ -20,22 +20,26 @@ jobs:
           echo "TagName=$TAG" >> $GITHUB_ENV
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "::notice::TagName=$TAG"
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Build app and zip it
-        run: |
-          # ./pack.sh ${{ env.BRANCH }}
-          echo "hello world and BRANCH=$BRANCH" > test.txt
-      - name: Upload linux build assets
-        run: |
+
           type -p curl >/dev/null || (apt update && apt install curl -y)
           curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
           && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
           && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
           && apt update \
           && apt install gh -y
-          BRANCH=${GITHUB_REF##*/}
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build app and zip it
+        run: |
           git config --global --add safe.directory "%(prefix)/$GITHUB_WORKSPACE"
+          git status
+          # ./pack.sh ${{ env.BRANCH }}
+          echo "hello world and BRANCH=$BRANCH" > test.txt
+      - name: Upload linux build assets
+        run: |
+          
+          BRANCH=${GITHUB_REF##*/}
+          
           gh release create v1.0-$BRANCH --notes "test release" ./*.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
