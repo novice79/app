@@ -26,17 +26,21 @@ jobs:
           # ./pack.sh ${{ env.BRANCH }}
           echo "hello world and BRANCH=$BRANCH" > test.txt
       - name: Upload linux build assets
-        uses: softprops/action-gh-release@v1
-        with:
-          body: |
-            Auto build app for
-            - macos_aarch64
-            - macos_x64
-            - linux_armv7
-            - linux_aarch64
-            - linux_x86_64
-          # file: ${{ github.workspace }}/*.7z
-          file: test.txt
-          tag_name: ${{ env.TagName }}
-          # overwrite: true
-          # file_glob: true
+        run: |
+          BRANCH=${GITHUB_REF##*/}
+          gh release create v1.0-$BRANCH --notes "test release" ./*.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # with:
+        #   body: |
+        #     Auto build app for
+        #     - macos_aarch64
+        #     - macos_x64
+        #     - linux_armv7
+        #     - linux_aarch64
+        #     - linux_x86_64
+        #   # file: ${{ github.workspace }}/*.7z
+        #   file: test.txt
+        #   tag_name: ${{ env.TagName }}
+        #   # overwrite: true
+        #   # file_glob: true
