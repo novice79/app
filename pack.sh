@@ -9,7 +9,7 @@ cd spa && npm i && npm run build && cd ..
 
 mkdir -p $appName
 mv -v dist/www $appName/
-cat > readme.txt << EOF
+cat > $appName/readme.txt << EOF
 1. run ./app
 2. use web browser open http://this-machine-ip:listening-port to use it
 EOF
