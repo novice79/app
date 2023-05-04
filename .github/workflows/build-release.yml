@@ -9,7 +9,8 @@ jobs:
     name: Build app release and upload assets
     runs-on: ubuntu-latest
     container:
-      image: novice/build:latest
+      # image: novice/build:latest
+      image: ubuntu:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -36,7 +37,7 @@ jobs:
             - linux_x86_64
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           # file: ${{ github.workspace }}/*.7z
-          file: ${{ github.workspace }}/test.txt
+          file: test.txt
           tag: ${{ env.TagName }}
           overwrite: true
-          file_glob: true
+          # file_glob: true
