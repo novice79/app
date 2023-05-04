@@ -137,6 +137,10 @@ void Ebook::start(int port)
             res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
         }
     })
+    .post("^/app_url$", [this](auto *app, auto res, auto req) {
+        res->write(SimpleWeb::StatusCode::success_ok); 
+        // res->write("https://github.com/novice79/app/releases/download/v1.0-ebook/ebook-linux-x86_64.7z");
+    })
     .ws("^/store$", {
         .on_open = [this](auto *app, auto conn)
         {

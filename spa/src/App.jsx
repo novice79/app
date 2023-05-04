@@ -18,10 +18,10 @@ function ws_uri() {
     ws_uri = "ws:";
   } else {
     ws_uri = "ws:";
-    h = `localhost:8888`;
+    h = `localhost:7777`;
   }
   if (import.meta.env.DEV) {
-    h = `192.168.0.60:8888`;
+    h = `192.168.0.60:7777`;
     // console.log(`[ws_uri] app is running in development mode`)
   } else {
     // console.log(`[ws_uri] app is running in production mode`)

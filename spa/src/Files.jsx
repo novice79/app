@@ -29,13 +29,13 @@ export default function Files() {
                     justifyContent: 'flex-end'
                     }}>
                     <a href={import.meta.env.DEV? 
-                        `http://192.168.0.60:8888/store/${fi.name}` 
+                        `${debugUrl}/store/${fi.name}` 
                         :`/store/${fi.name}`} download={fi.name}
                         target="_blank" rel="noopener noreferrer"><Download sx={{ mr: 1 }}/></a>
                     <DeleteDialog title={t("you-sure")} content={fi.name} 
                         okCB={()=>{
                             const url = import.meta.env.DEV? 
-                            `http://192.168.0.60:8888/del` 
+                            `${debugUrl}/del` 
                             :`/del`
                             util.post_data(url, fi.path);
                     }}/>

@@ -129,7 +129,7 @@ export default function Reader({currentBook, backClicked}) {
         <Box sx={{bgcolor: '#222', height: '3rem', display: 'flex', alignItems: 'center'}}>
             <ArrowBack 
               onClick={backClicked}
-              sx={{ fontSize: '2rem', ml: 3, color: 'white', cursor: 'pointer' }} 
+              sx={{ fontSize: '2rem', ml: 1, color: 'white', cursor: 'pointer' }} 
             />
             <Box sx={{flex: 1, color: 'white', textAlign: 'center'}}>{title}</Box>
             <FontMenu size={size} changeSize={changeSize} themeSelected={themeSelected}

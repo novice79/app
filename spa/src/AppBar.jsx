@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import { Store, Upload, List } from '@mui/icons-material';
+import { Store, Upload, List, GetApp } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { useAtom } from 'jotai'
 import { isListAtom, uploadAtom, uploadCountAtom } from './atom'
@@ -10,13 +8,14 @@ import SearchBar from './SearchBar'
 import _ from 'lodash'
 import util from "./util";
 export default function IconAppBar() {
+  const [appUrl, setAppUrl] = useState("");
   const inputFileRef = useRef( null );
   const [ isList, setIsList ] = useAtom(isListAtom)
   const [ upload, setUpload ] = useAtom(uploadAtom)
   const [ count, setCount ] = useAtom(uploadCountAtom)
   let url = '/upload';
   if( import.meta.env.DEV ) {
-    url = 'http://192.168.0.60:8888/upload';
+    url = `${debugUrl}/upload`;
     // console.log(`[IconAppBar] app is running in development mode`)
   } else {
     // console.log(`[IconAppBar] app is running in production mode`)
@@ -24,6 +23,15 @@ export default function IconAppBar() {
   useEffect(() => {
     if(count == 0) setUpload({})
   }, [count]);
+  useEffect(() => {
+    util.post_data(import.meta.env.DEV? `${debugUrl}/app_url`:'/app_url')
+    .then((res) => res.text())
+    .then(url => {
+      console.log(url)
+      setAppUrl(url)
+    })
+    .catch((err) => console.log('error', err))
+  }, []);
   function processFile(e){
     if (e.target.files.length == 0) return;
     setCount(e.target.files.length)
@@ -51,7 +59,17 @@ export default function IconAppBar() {
       display: 'flex', alignItems: 'center',
       position: 'fixed', width: '100%', zIndex: 9
       }}>
-        <Store sx={{ fontSize: '2.5rem', pr : 1.7 }} />
+        {appUrl 
+          && 
+          <a href={appUrl} style={{display: 'block'}}
+            download={util.get_name_from_path(appUrl)}
+            target="_blank" rel="noopener noreferrer">
+              <GetApp  size="large" sx={{ transform: 'translateY(14%)', color: 'white', m: 1 }}/>
+          </a>
+          || 
+          <Store sx={{ fontSize: '2.5rem', pr : 1.7 }} />
+        }
+        
         <SearchBar/>
         <Box sx={{ 
           flexGrow: 1, mr: 1.5,
@@ -63,7 +81,7 @@ export default function IconAppBar() {
           <List sx={ isList && {
             border: '3px inset',
             backgroundColor: 'grey'
-          } || {}} size="large"/>
+          } || {cursor: 'pointer'}} size="large"/>
         </Box>
         <IconButton
           size="large"

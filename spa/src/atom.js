@@ -11,7 +11,7 @@ const BookAtom = atom( get => {
             const pass = keyWord ? b.title.includes(keyWord) : true;
             if(pass){
                 const url = import.meta.env.DEV ?
-                `http://192.168.0.60:8888/store/${fi.name}`
+                `${debugUrl}/store/${fi.name}`
                 : `/store/${fi.name}`;
                 b.url = url;
                 epubs.push(b)

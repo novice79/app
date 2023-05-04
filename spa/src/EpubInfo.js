@@ -16,7 +16,7 @@ async function book_metadata(url, path) {
         cover,
     };
     const uri = import.meta.env.DEV ?
-        `http://192.168.0.60:8888/save_epub`
+        `${debugUrl}/save_epub`
         : `/save_epub`;
     const data = JSON.stringify({
         path,
@@ -33,7 +33,7 @@ async function handle_epub(files) {
         // console.log(fi);
         if (fi.epub || ! fi.type.includes("epub")) continue;
         let url = import.meta.env.DEV ?
-            `http://192.168.0.60:8888/store/${fi.name}`
+            `${debugUrl}/store/${fi.name}`
             : `/store/${fi.name}`;
         // console.log(`handle_epub ${url}`)
         // url = encodeURIComponent(url)
