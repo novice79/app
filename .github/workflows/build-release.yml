@@ -26,7 +26,7 @@ jobs:
           # ./pack.sh ${{ env.BRANCH }}
           echo "hello world and BRANCH=$BRANCH" > test.txt
       - name: Upload linux build assets
-        uses: svenstaro/upload-release-action@v2
+        uses: softprops/action-gh-release@v1
         with:
           body: |
             Auto build app for
@@ -35,9 +35,8 @@ jobs:
             - linux_armv7
             - linux_aarch64
             - linux_x86_64
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
           # file: ${{ github.workspace }}/*.7z
           file: test.txt
-          tag: ${{ env.TagName }}
-          overwrite: true
+          tag_name: ${{ env.TagName }}
+          # overwrite: true
           # file_glob: true
