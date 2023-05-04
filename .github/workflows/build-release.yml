@@ -35,7 +35,7 @@ jobs:
           && apt update \
           && apt install gh -y
           BRANCH=${GITHUB_REF##*/}
-          git config --global --add safe.directory $(realpath .)
+          git config --global --add safe.directory "%(prefix)/$GITHUB_WORKSPACE"
           gh release create v1.0-$BRANCH --notes "test release" ./*.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
