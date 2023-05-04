@@ -21,11 +21,12 @@ jobs:
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "::notice::TagName=$TAG"
       - name: Build app and zip it
-        run: ./pack.sh ${{ env.BRANCH }}
+        run: |
+          # ./pack.sh ${{ env.BRANCH }}
+          echo "hello world and BRANCH=$BRANCH" > test.txt
       - name: Upload linux build assets
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             Auto build app for
             - macos_aarch64
@@ -34,7 +35,8 @@ jobs:
             - linux_aarch64
             - linux_x86_64
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ github.workspace }}/*.7z
+          # file: ${{ github.workspace }}/*.7z
+          file: ${{ github.workspace }}/test.txt
           tag: ${{ env.TagName }}
           overwrite: true
           file_glob: true
