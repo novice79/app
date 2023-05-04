@@ -12,8 +12,6 @@ jobs:
       # image: novice/build:latest
       image: ubuntu:latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
       - name: Set release tag env
         run: |
           BRANCH=${GITHUB_REF##*/}
@@ -21,6 +19,8 @@ jobs:
           echo "TagName=$TAG" >> $GITHUB_ENV
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "::notice::TagName=$TAG"
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Build app and zip it
         run: |
           # ./pack.sh ${{ env.BRANCH }}
