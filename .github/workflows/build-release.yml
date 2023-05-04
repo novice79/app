@@ -43,7 +43,7 @@ jobs:
             gh release delete ${{ env.TagName }} -y
           fi
           gh release create ${{ env.TagName }} \
-          --notes ${{ env.NOTES }} \
+          --notes "${{env.NOTES}}" \
           ./*.7z
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
