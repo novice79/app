@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
     container:
-      # image: novice/build:latest
-      image: ubuntu:latest
+      image: novice/build:latest
     steps:
       - name: Set release tag env
         run: |
@@ -20,39 +19,18 @@ jobs:
           echo "TagName=$TAG" >> $GITHUB_ENV
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "::notice::TagName=$TAG"
-
-          type -p curl >/dev/null || (apt update && apt install curl -y)
-          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-          && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-          && apt update \
-          && apt install gh -y
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Build app and zip it
         run: |
           git config --global --add safe.directory "%(prefix)/$GITHUB_WORKSPACE"
-          git status
-          # ./pack.sh ${{ env.BRANCH }}
-          echo "hello world and BRANCH=$BRANCH" > test.txt
+          ./pack.sh ${{ env.BRANCH }}
       - name: Upload linux build assets
         run: |
-          
-          BRANCH=${GITHUB_REF##*/}
-          
-          gh release create v1.0-$BRANCH --notes "test release" ./*.txt
+          gh release delete ${{ env.TagName }} -y
+          gh release create ${{ env.TagName }} \
+          --notes "Auto build app for [macos_aarch64|macos_x64|linux_armv7|linux_aarch64|linux_x86_64]" \
+          ./*.7z
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # with:
-        #   body: |
-        #     Auto build app for
-        #     - macos_aarch64
-        #     - macos_x64
-        #     - linux_armv7
-        #     - linux_aarch64
-        #     - linux_x86_64
-        #   # file: ${{ github.workspace }}/*.7z
-        #   file: test.txt
-        #   tag_name: ${{ env.TagName }}
-        #   # overwrite: true
-        #   # file_glob: true
+
