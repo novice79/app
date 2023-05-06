@@ -59,6 +59,7 @@ export default function SearchBar() {
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
+                    value={filterTxt}
                     onChange={e=>{
                         setFilterTxt(e.target.value)
                     }}

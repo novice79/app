@@ -105,11 +105,13 @@ export default function Reader({currentBook, backClicked}) {
     const sw = screen.width
     // console.log(`e.clientX = ${e.clientX }`)
     // console.log(`sw=${sw}`)
-    // setTitle(`e.clientX = ${e.clientX }; sw=${sw}`)
-    if ( e.clientX < sw / 2) {
+    // console.log(e)
+    // console.log(`e.screenX = ${e.screenX }; sw=${sw}`)
+    const m = sw / 4
+    if ( e.screenX < sw / 2 - m) {
       // console.log('click left')
       prev()
-    } else {
+    } else if ( e.screenX > sw / 2 + m) {
       // console.log('click right')
       next()
     }

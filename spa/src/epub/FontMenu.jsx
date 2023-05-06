@@ -28,7 +28,7 @@ export default function FontMenu(props) {
                     }}>
                     <TextDecrease sx={{mr:2}} onClick={() => changeSize(Math.max(70, size - 10))}/>
                     <div>{size}%</div>
-                    <TextIncrease sx={{ml:2}} onClick={() => changeSize(Math.min(170, size + 10))}/>
+                    <TextIncrease sx={{ml:2}} onClick={() => changeSize(Math.min(250, size + 10))}/>
                 </div>
                 <hr/>
                 <div style={{
