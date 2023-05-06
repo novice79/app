@@ -3,6 +3,8 @@ const isListAtom = atom(false)
 const fileAtom = atom([])
 const filterAtom = atom('')
 const currentBookAtom = atom(null)
+const bp = localStorage.getItem('progress')
+const progressAtom = atom(bp ? JSON.parse(bp) : {})
 const BookAtom = atom( get => {
     const books = get(fileAtom).reduce((epubs, fi) => {
         if(fi.epub){
@@ -20,8 +22,17 @@ const BookAtom = atom( get => {
         return epubs
     }, [])
     // console.log(books)
-    return books
-},[])
+    return books.sort( (a, b)=>{
+        const progress = get(progressAtom)
+        const aKey = `${a.title}-${a.author}`
+        const bKey = `${b.title}-${b.author}`
+        const aValue = progress[aKey] || ''
+        const bValue = progress[bKey] || ''
+        if( aValue > bValue ) return -1;
+        if( bValue > aValue ) return 1;
+        return 0
+    })
+})
 const uploadAtom = atom({})
 const uploadCountAtom = atom(0)
 export {
@@ -32,4 +43,5 @@ export {
     filterAtom,
     BookAtom,
     currentBookAtom,
+    progressAtom,
 }

@@ -1,21 +1,26 @@
 import React from 'react'
 import { useAtom } from 'jotai'
 import { useNavigate } from "react-router-dom";
-import { BookAtom, currentBookAtom } from './atom'
+import { BookAtom, currentBookAtom, progressAtom } from './atom'
 import Box from '@mui/material/Box';
 import util from "./util";
-import { Book, Rendition } from 'epubjs';
+
 
 export default function Books() {
-    const [ books] = useAtom(BookAtom)
+    const [ books ] = useAtom(BookAtom)
+    const [ progress, setProgress ] = useAtom(progressAtom)
     const [ , setCurrentBook ] = useAtom(currentBookAtom)
     const navigate = useNavigate()
+
     const listItems = books
         .map( fi =>
         <React.Fragment key={`${fi.title}-${fi.author}`}>
             <Box 
             onClick={e=>{
                 setCurrentBook(fi)
+                progress[`${fi.title}-${fi.author}`] = util.now_str()
+                localStorage.setItem('progress', JSON.stringify(progress))
+                setProgress(progress)
                 navigate("/reader");
             }}
             sx={{ 
