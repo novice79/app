@@ -25,8 +25,8 @@ cmake -GNinja -H"src" -B$dir \
 cmake --build $dir
 cmake --install $dir
 
-cd spa && npm i && npm run build
-cd -
+cd spa && npm i && npm run build && cd -
+[ -x ./copy-www.sh ] && ./copy-www.sh
 cp -r $PWD/dist/www $PWD/dist/bin/
 printf "\nFYI:\n"
 echo "please run: ./dist/bin/app"
