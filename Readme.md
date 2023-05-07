@@ -6,8 +6,8 @@
 
     For reference: [App backend performance](app-backend-performance.md)
 
-2. Embedded custom fonts that can be switch between
-3. Enable family/friends read packs books on your phone or raspberry pi at the same time, with different progress?
+2. Embedded custom fonts that can be switched between
+3. Enable family/friends read packs of books on your phone or raspberry pi at the same time, with different progress?
 
 ## Limitation:
 
