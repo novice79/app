@@ -8,6 +8,15 @@ class Util {
     randomInt(low = 0, high = 4294967295) {
         return Math.floor(Math.random() * (high - low) + low)
     }
+    in_webview(){
+        if (typeof window === undefined) { return false };
+        const navigator = window.navigator;
+        const standalone = navigator.standalone;
+        const userAgent = navigator.userAgent.toLowerCase();
+        const safari = /safari/.test(userAgent);
+        const ios = /iphone|ipod|ipad/.test(userAgent);
+        return ios ? !standalone && !safari : userAgent.includes('wv');
+    }
     now_str() {
         return new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false })
     }

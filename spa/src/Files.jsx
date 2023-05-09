@@ -28,10 +28,15 @@ export default function Files() {
                     display: 'flex', 
                     justifyContent: 'flex-end'
                     }}>
-                    <a href={import.meta.env.DEV? 
+                    {
+                        util.in_webview() || 
+                        <a href={import.meta.env.DEV? 
                         `${debugUrl}/store/${fi.name}` 
                         :`/store/${fi.name}`} download={fi.name}
-                        target="_blank" rel="noopener noreferrer"><Download sx={{ mr: 1 }}/></a>
+                        target="_blank" rel="noopener noreferrer">
+                            <Download sx={{ mr: 1 }}/>
+                        </a>
+                    }
                     <DeleteDialog title={t("you-sure")} content={fi.name} 
                         okCB={()=>{
                             const url = import.meta.env.DEV? 
