@@ -1,18 +1,20 @@
 import { useState, useEffect, useRef } from 'react'
-import { FormatSize, TextIncrease, TextDecrease } from '@mui/icons-material';
+import { FormatSize, Settings, TextIncrease, TextDecrease } from '@mui/icons-material';
 
 import FontSelect from './FontSelect'
+import FlowSwitch from './FlowSwitch'
 export default function FontMenu(props) {
     const {
         size, changeSize, themeSelected, fontFamilySelected,
-        showMenu, fontIconClicked
+        showMenu, fontIconClicked, flow, flowChanged
     } = props
     
 
     return (
         <div style={{ position: 'relative'}}>
-            <FormatSize sx={{ 
-              fontSize: '1.7rem', mr: 3, color: 'white', cursor: 'pointer' }} 
+            <Settings sx={{ 
+              fontSize: '1.7rem', mr: 3, color: 'white', cursor: 'pointer',
+              transform: 'translateY(0.1rem)' }} 
               onClick={fontIconClicked}
             />
             <div style={{ position: 'absolute', 
@@ -59,6 +61,8 @@ export default function FontMenu(props) {
                 </div>
                 <hr/>
                 <FontSelect fontFamilySelected={fontFamilySelected}/>
+                <hr/>
+                <FlowSwitch flow={flow} flowChanged={flowChanged}/>
             </div>
         </div>
     )

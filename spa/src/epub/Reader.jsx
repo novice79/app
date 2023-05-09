@@ -17,7 +17,6 @@ import util from '../util'
 import linkInterceptor from './hook'
 
 
-
 export default function Reader({currentBook, backClicked}) {
   const {url, title, author, publisher} = currentBook;
   const readerRef = useRef(), renditionRef = useRef()
@@ -30,7 +29,7 @@ export default function Reader({currentBook, backClicked}) {
 
   const [showMenu, setShowMenu] = useState(false);
   const [location, setLocation] = useState(null)
-
+  const [flow, setFlow] = useState(localStorage.getItem('flow') || 'paginated');
   useEffect(() => {
     const cifi = localStorage.getItem(`${title}-${author}`)
     cifiRef.current = cifi
@@ -68,6 +67,7 @@ export default function Reader({currentBook, backClicked}) {
           // console.log('curLoc=', curLoc)
           const regExp = /\[([^\]]+)\]/g;
           const matches = cifiRef.current.match(regExp);
+          if (!matches) return b
           // console.log('matches=', matches)
           // const curHref = `${curLoc.href}#${(/\[(.+?)\]/).exec(curLoc.cfi)[1]}`
           const curHref = `${curLoc.href}#${matches.pop().replace(/[\[\]]/g, '')}`
@@ -125,27 +125,40 @@ export default function Reader({currentBook, backClicked}) {
   return (
       <div style={{ 
         height: '100vh', 
-        display: 'flex', flexDirection: 'column',
+        // display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        
         position: 'relative' }}
       >
-        <Box sx={{bgcolor: '#222', height: '3rem', display: 'flex', alignItems: 'center'}}>
+        <Box sx={{position: 'fixed', top: 0, left: 0,
+          bgcolor: '#222', width: '100vw', height: '3rem',
+          display: 'flex', alignItems: 'center', zIndex: 7
+          }}>
             <ArrowBack 
               onClick={backClicked}
               sx={{ fontSize: '2rem', ml: 1, color: 'white', cursor: 'pointer' }} 
             />
             <Box sx={{flex: 1, color: 'white', textAlign: 'center', padding: '0 2rem',
-              fontSize: '1.5rem', whiteSpace: 'nowrap', 
+              fontSize: '1.6rem', whiteSpace: 'nowrap', 
               overflow: 'auto', textOverflow: 'ellipsis'}}>{title}</Box>
             <FontMenu size={size} changeSize={changeSize} themeSelected={themeSelected}
               showMenu={showMenu} fontIconClicked={()=>{
                 setShowMenu(p=>!p)
-              }} fontFamilySelected={fontFamilySelected}
+              }} fontFamilySelected={fontFamilySelected} 
+              flow={flow}
+              flowChanged={flow=>{
+                renditionRef.current.flow(flow)
+                renditionRef.current.start()
+                localStorage.setItem('flow', flow)
+                setFlow(flow);
+              }}
             />
             
             <TocIcon sx={{ fontSize: '2rem', mr: 3, color: 'white', cursor: 'pointer' }} 
             onClick={tocIconClicked}/>
         </Box>
-        <div style={{ flex: 1, width: '100%' }}>
+        <div style={{ height: 'calc(100vh - 3rem)', width: '100%', 
+          paddingTop: '3rem', 
+          }}>
           <EpubView
             handleClick={e=>{
               setShowToc(false)
@@ -168,27 +181,32 @@ export default function Reader({currentBook, backClicked}) {
               r.hooks.content.register(linkInterceptor)
               const ff = localStorage.getItem('font-family')
               renditionRef.current.themes.font(ff)
+              renditionRef.current.flow(flow)
             }}
             loadingView={<LoadingView/>}
             tocChanged={setToc}
             locationChanged={locationChanged}
           />
         </div>
-        <ArrowBackIosIcon sx={{
-          position: 'absolute', top: '50%', transform: 'translateY(-50%)',
-          cursor: 'pointer', display: `${isMobile && 'none'}`
-        }}
-          onClick={prev}
-        />
-        <ArrowForwardIosIcon sx={{
-          position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)',
-          cursor: 'pointer', display: `${isMobile ? 'none' : 'block'}`
-        }}
-          onClick={next}
-        />
+        { flow == 'paginated' &&
+          <ArrowBackIosIcon sx={{
+            position: 'fixed', top: '50%', transform: 'translateY(-50%)',
+            cursor: 'pointer', display: `${isMobile && 'none'}`
+          }}
+            onClick={prev}
+          />
+        }
+        { flow == 'paginated' &&
+          <ArrowForwardIosIcon sx={{
+            position: 'fixed', right: 0, top: '50%', transform: 'translateY(-50%)',
+            cursor: 'pointer', display: `${isMobile ? 'none' : 'block'}`
+          }}
+            onClick={next}
+          />
+        }
         <Box sx={{
             ...{
-                position: 'absolute', height: '100%', top: 0, left: 0, 
+                position: 'fixed', height: '100%', top: 0, left: 0, 
                 backgroundColor: '#f2f2f2', zIndex: 7,
                 padding: 1, transition: 'all .5s ease', overflow: 'auto', maxWidth: '60vw'
             }, ...(showToc ? { transform: 'translateX(0)' } : { transform: 'translateX(-100%)' })

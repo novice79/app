@@ -3,5 +3,6 @@
     "default": "默认",
     "yes": "确定",
     "cancel": "取消",
-    "you-sure": "你确定删除："
+    "you-sure": "你确定删除：",
+    "Scrolled": "滚动模式"
 }
