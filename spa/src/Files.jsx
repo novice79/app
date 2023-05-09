@@ -18,7 +18,7 @@ export default function Files() {
             <Box sx={{ 
                 width: '100%', 
                 display: 'flex', flexWrap: 'wrap', alignItems: 'center',
-                backgroundColor: 'rgb(177, 250, 250)',
+                backgroundColor: '#EEEFEF',
                 border: '.3rem groove',
                 marginTop: '.4rem' }}>
                 <Box sx={{ width: '60%', overflowWrap: 'break-word' }}>{fi.name}</Box>
