@@ -122,11 +122,16 @@ export default function Reader({currentBook, backClicked}) {
     const node = readerRef.current
     node && node.prevPage()
   }
+  
+  function applyFlow(flow){
+    if(renditionRef.current){
+      renditionRef.current.flow(flow)
+    }
+  }
   return (
       <div style={{ 
         height: '100vh', 
         // display: 'flex', flexDirection: 'column', justifyContent: 'center',
-        
         position: 'relative' }}
       >
         <Box sx={{position: 'fixed', top: 0, left: 0,
@@ -146,7 +151,7 @@ export default function Reader({currentBook, backClicked}) {
               }} fontFamilySelected={fontFamilySelected} 
               flow={flow}
               flowChanged={flow=>{
-                renditionRef.current.flow(flow)
+                applyFlow(flow)
                 renditionRef.current.start()
                 localStorage.setItem('flow', flow)
                 setFlow(flow);
@@ -157,7 +162,7 @@ export default function Reader({currentBook, backClicked}) {
             onClick={tocIconClicked}/>
         </Box>
         <div style={{ height: 'calc(100vh - 3rem)', width: '100%', 
-          paddingTop: '3rem', 
+          top: '3rem', position: 'fixed'
           }}>
           <EpubView
             handleClick={e=>{
@@ -181,7 +186,7 @@ export default function Reader({currentBook, backClicked}) {
               r.hooks.content.register(linkInterceptor)
               const ff = localStorage.getItem('font-family')
               renditionRef.current.themes.font(ff)
-              renditionRef.current.flow(flow)
+              applyFlow(flow)
             }}
             loadingView={<LoadingView/>}
             tocChanged={setToc}
