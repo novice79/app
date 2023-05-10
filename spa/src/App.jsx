@@ -11,6 +11,8 @@ import { isListAtom, fileAtom, uploadAtom, uploadCountAtom } from './atom'
 import './App.css'
 import util from "./util";
 import handle_epub from "./EpubInfo";
+
+let ws;
 function ws_uri() {
   let loc = window.location, ws_uri, h = loc.host;
   if (loc.protocol === "https:") {
@@ -59,7 +61,7 @@ function App() {
     // console.log(`document.title=${document.title}`)
   }, [lng]);
   function ws_connect(){
-    const ws = new WebSocket(ws_uri());
+    ws = new WebSocket(ws_uri());
     ws.onmessage = function (event) {
       try {
         // console.log('recieved data from ws')
@@ -72,10 +74,9 @@ function App() {
       }
     };
     ws.onclose = ()=>setTimeout(ws_connect, 100)
-    return ws;
   }
   useEffect(() => {
-    const ws = ws_connect()
+    ws_connect()
     //clean up function
     return () => ws.close();
   }, []);

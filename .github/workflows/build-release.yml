@@ -40,7 +40,7 @@ jobs:
       - name: Upload linux build assets
         run: |
           if gh release list | grep -q ${{ env.TagName }}; then
-            gh release delete ${{ env.TagName }} -y
+            gh release delete ${{ env.TagName }} -y --cleanup-tag
           fi
           gh release create ${{ env.TagName }} \
           --notes "${{env.NOTES}}" \

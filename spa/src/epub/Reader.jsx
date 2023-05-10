@@ -144,7 +144,9 @@ export default function Reader({currentBook, backClicked}) {
             />
             <Box sx={{flex: 1, color: 'white', textAlign: 'center', padding: '0 2rem',
               fontSize: '1.6rem', whiteSpace: 'nowrap', 
-              overflow: 'auto', textOverflow: 'ellipsis'}}>{title}</Box>
+              overflow: 'auto', 
+              // textOverflow: 'ellipsis'
+              }}>{title}</Box>
             <FontMenu size={size} changeSize={changeSize} themeSelected={themeSelected}
               showMenu={showMenu} fontIconClicked={()=>{
                 setShowMenu(p=>!p)
