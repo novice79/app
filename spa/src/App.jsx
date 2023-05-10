@@ -35,6 +35,7 @@ function ws_uri() {
 function progress_cap(f) {
   return `${util.truncate(f.name)}${util.formatFileSize(f.size)}`
 }
+
 function App() {
   const [, setFile] = useAtom(fileAtom)
   const [isList] = useAtom(isListAtom)
@@ -57,7 +58,7 @@ function App() {
     document.title = t('html-title')
     // console.log(`document.title=${document.title}`)
   }, [lng]);
-  useEffect(() => {
+  function ws_connect(){
     const ws = new WebSocket(ws_uri());
     ws.onmessage = function (event) {
       try {
@@ -70,6 +71,11 @@ function App() {
         console.log(err, event.data)
       }
     };
+    ws.onclose = ()=>setTimeout(ws_connect, 100)
+    return ws;
+  }
+  useEffect(() => {
+    const ws = ws_connect()
     //clean up function
     return () => ws.close();
   }, []);

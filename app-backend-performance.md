@@ -172,4 +172,4 @@ Transfer/sec:      6.09MB
 | Iphone 6s | RPS: 1256.21 | N/A | N/A |
 | OnePlus 5T | RPS: 4745.83 | N/A | N/A |
 | raspberry pi 2 | RPS: 1802.28 | RPS: 1952.89 | RPS: 257.14 |
-| Lenovo ideapad y700 | RPS: 3719.46 |RPS: 3668.35 | 3554.39 |
+| Lenovo ideapad y700 | RPS: 3719.46 | RPS: 3668.35 | RPS: 3554.39 |
