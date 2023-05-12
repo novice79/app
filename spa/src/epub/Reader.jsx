@@ -26,7 +26,7 @@ export default function Reader({currentBook, backClicked}) {
   const [toc, setToc] = useState([])
   const [isMobile] = useState(util.mobileCheck())
   const [showToc, setShowToc] = useState(false)
-
+  const [theme, setTheme] = useState(localStorage.getItem('book-theme') || 'black')
   const [showMenu, setShowMenu] = useState(false);
   const [location, setLocation] = useState(null)
   const [flow, setFlow] = useState(localStorage.getItem('flow') || 'paginated');
@@ -35,15 +35,24 @@ export default function Reader({currentBook, backClicked}) {
     cifiRef.current = cifi
     setLocation(cifi)
   }, []);
+  useEffect(() => {
+    if(renditionRef.current){
+      if(localStorage.getItem('book-theme') == theme) return
+      console.log(`theme=${theme}`)
+      renditionRef.current.themes.select(theme)
+      try {
+        renditionRef.current.start()
+      } catch (error) {
+        console.log(`rendition start error=`, error)
+      }
+    }
+    localStorage.setItem('book-theme', theme)
+  }, [theme]);
   const changeSize = newSize => {
     localStorage.setItem('font-size', newSize)
     setSize(newSize)
   }
-  function themeSelected(t){
-    renditionRef.current.themes.select(t)
-    renditionRef.current.start()
-    localStorage.setItem('book-theme', t)
-  }
+
   function fontFamilySelected(ff){
     localStorage.setItem('font-family', ff)
     renditionRef.current.themes.font(ff)
@@ -52,7 +61,8 @@ export default function Reader({currentBook, backClicked}) {
     if (renditionRef.current) {
       renditionRef.current.themes.fontSize(`${size}%`)
     }
-  }, [size])
+  }, [size]);
+  
   const locationChanged = cifi => {
     cifiRef.current = cifi
     localStorage.setItem(`${title}-${author}`, cifi)
@@ -147,7 +157,7 @@ export default function Reader({currentBook, backClicked}) {
               overflow: 'auto', 
               // textOverflow: 'ellipsis'
               }}>{title}</Box>
-            <FontMenu size={size} changeSize={changeSize} themeSelected={themeSelected}
+            <FontMenu size={size} changeSize={changeSize} themeSelected={setTheme}
               showMenu={showMenu} fontIconClicked={()=>{
                 setShowMenu(p=>!p)
               }} fontFamilySelected={fontFamilySelected} 
@@ -170,7 +180,7 @@ export default function Reader({currentBook, backClicked}) {
             handleClick={e=>{
               setShowToc(false)
               setShowMenu(false)
-              clickToFlipPage(e)
+              // clickToFlipPage(e)
             }}
             ref={readerRef}
             url={url}
@@ -182,7 +192,7 @@ export default function Reader({currentBook, backClicked}) {
                 // console.log(key, value);
                 r.themes.register(key, value);
               });
-              const theme = localStorage.getItem('book-theme')
+              
               renditionRef.current.themes.select(theme)
               renditionRef.current.themes.fontSize(`${size}%`)
               r.hooks.content.register(linkInterceptor)
@@ -198,7 +208,8 @@ export default function Reader({currentBook, backClicked}) {
         { flow == 'paginated' &&
           <ArrowBackIosIcon sx={{
             position: 'fixed', top: '50%', transform: 'translateY(-50%)',
-            cursor: 'pointer', display: `${isMobile && 'none'}`
+            cursor: 'pointer', display: `${isMobile && 'none'}`, 
+            color: `${theme=='black'? 'white' : 'black'}`
           }}
             onClick={prev}
           />
@@ -206,7 +217,8 @@ export default function Reader({currentBook, backClicked}) {
         { flow == 'paginated' &&
           <ArrowForwardIosIcon sx={{
             position: 'fixed', right: 0, top: '50%', transform: 'translateY(-50%)',
-            cursor: 'pointer', display: `${isMobile ? 'none' : 'block'}`
+            cursor: 'pointer', display: `${isMobile ? 'none' : 'block'}`,
+            color: `${theme=='black'? 'white' : 'black'}`
           }}
             onClick={next}
           />

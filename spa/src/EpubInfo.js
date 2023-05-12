@@ -23,6 +23,7 @@ async function book_metadata(url, path) {
         epub: JSON.stringify(info)
     });
     // console.log(data)
+    book.destroy()
     return util.post_data(uri, data, {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
