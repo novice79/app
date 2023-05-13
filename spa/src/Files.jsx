@@ -29,7 +29,7 @@ export default function Files() {
                     justifyContent: 'flex-end'
                     }}>
                     {
-                        util.in_webview() || 
+                        // util.in_webview() || 
                         <a href={import.meta.env.DEV? 
                         `${debugUrl}/store/${fi.name}` 
                         :`/store/${fi.name}`} download={fi.name}
