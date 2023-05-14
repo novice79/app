@@ -33,40 +33,40 @@ There are open issues:
 4. Optionally, download books from ebook app on other devices within intranet
 
 <div style="display:flex;flex-wrap: wrap;align-items: center;justify-content: center;">
-    <div> 
-        <h3><i>Open app on android, started with empty shelf</i></h3>
-        <img style="margin:1rem; max-width:450px;max-height:450px;" src="screenshots/1_android-ebook-app-begin.jpg"/>
+     <div style="margin:3rem;"> 
+        <h3><i>Open app on android, started out with empty shelf</i></h3>
+        <img style="max-width:400px;max-height:400px;" src="screenshots/1_android-ebook-app-begin.jpg"/>
     </div>
-    <div> 
+     <div style="margin:3rem;"> 
         <h3><i>Upload books from macbook(or any other node in the same intranet)</i></h3>
-        <img style="margin:1rem; max-width:450px;max-height:450px;" src="screenshots/2_macbook-upload-books-to-android.jpg" />
+        <img style="max-width:400px;max-height:400px;" src="screenshots/2_macbook-upload-books-to-android.jpg" />
     </div>
-    <div> 
+     <div style="margin:3rem;"> 
         <h3><i>Books show in app book shelf</i></h3>
-        <img style="margin:1rem; max-width:450px;max-height:450px;" src="screenshots/3_books-show-in-app.jpg" />
+        <img style="max-width:400px;max-height:400px;" src="screenshots/3_books-show-in-app.jpg" />
     </div>
-    <div> 
+     <div style="margin:3rem;"> 
         <h3><i>Show app address qrcode</i></h3>
-        <img style="margin:1rem; max-width:450px;max-height:450px;" src="screenshots/show-app-address-qrcode.jpg" />
+        <img style="max-width:400px;max-height:400px;" src="screenshots/show-app-address-qrcode.jpg" />
     </div>
-    <div> 
+     <div style="margin:3rem;"> 
         <h3><i>Iphone scan this qrcode, and open the spa app in safari</i></h3>
-        <img style="margin:1rem; max-width:450px;max-height:450px;" src="screenshots/open-android-spa-on-iphone-safari.jpg" />
+        <img style="max-width:400px;max-height:400px;" src="screenshots/open-android-spa-on-iphone-safari.jpg" />
     </div>
-    <div> 
+     <div style="margin:3rem;"> 
         <h3><i>Show book content</i></h3>
-        <img style="margin:1rem; max-width:450px;max-height:450px;" src="screenshots/show-book-content.jpg" />
+        <img style="max-width:400px;max-height:400px;" src="screenshots/show-book-content.jpg" />
     </div>
-    <div> 
+     <div style="margin:3rem;"> 
         <h3><i>Show book settings</i></h3>
-        <img style="margin:1rem; max-width:450px;max-height:450px;" src="screenshots/show-book-settings.jpg" />
+        <img style="max-width:400px;max-height:400px;" src="screenshots/show-book-settings.jpg" />
     </div>
-    <div> 
+     <div style="margin:3rem;"> 
         <h3><i>Read chinese book with lishu(隶书) font, which embedded in app</i></h3>
-        <img style="margin:1rem; max-width:450px;max-height:450px;" src="screenshots/read-chinese-book-with-lishu-font.jpg" />
+        <img style="max-width:400px;max-height:400px;" src="screenshots/read-chinese-book-with-lishu-font.jpg" />
     </div>
-    <div> 
+     <div style="margin:3rem;"> 
         <h3><i>Download(or delete) epub file on another ipad</i></h3>
-        <img style="margin:1rem; max-width:450px;max-height:450px;" src="screenshots/download-epub-file-from-ipad.jpg" />
+        <img style="max-width:400px;max-height:400px;" src="screenshots/download-epub-file-from-ipad.jpg" />
     </div>
 </div>

@@ -9,9 +9,14 @@ std::string Ebook::time_to_str(std::time_t t)
     ss << std::put_time(&tm, "%F %T");
     return ss.str();
 }
-void Ebook::broadcast()
+void Ebook::broadcast(bool immediate)
 {
     static auto bc = std::bind(&Ebook::ws_broadcast, this, "^/store$", ph::_1);
+    if(immediate)
+    {
+        bc(json::serialize( files() ));
+        return;
+    }
     static std::atomic<bool> pending(false);
     if(pending) return;
     pending = true;
@@ -116,7 +121,7 @@ void Ebook::start(int port)
         auto sql{boost::format("delete from files where path='%1%'") % path};
         // cout << sql.str() << endl;
         db->exec_sql( sql.str() );
-        broadcast();
+        broadcast(true);
         res->write(SimpleWeb::StatusCode::success_ok); 
     })
     .post("^/save_epub$", [this](auto *app, auto res, auto req) {

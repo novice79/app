@@ -15,7 +15,7 @@ private:
     }
     void check_file_del();
     void check_file_update();
-    void broadcast();
+    void broadcast(bool immediate = false);
 public:
     Ebook(fs::path www_path, fs::path data_path, fs::path cache_path)
     :www_path_(std::move(www_path)),
