@@ -17,14 +17,23 @@ void Ebook::broadcast(bool immediate)
         bc(json::serialize( files() ));
         return;
     }
-    static std::atomic<bool> pending(false);
-    if(pending) return;
-    pending = true;
+    // throttle broadcast 2s
+    static std::atomic<bool> busy(false), pending(false);
+    if(busy) 
+    {
+        pending = true;
+        return;
+    }
+    busy = true;
     cron_job([this](auto* app){
-        bc(json::serialize( files() ));
-        pending = false;
+        if(pending)
+        {
+            bc(json::serialize( files() ));
+            pending = false;
+        }
+        busy = false;
     }, bpt::seconds(2) );
-    // bc(json::serialize( files() ));
+    bc(json::serialize( files() ));
 }
 void Ebook::check_file_del()
 {
