@@ -15,6 +15,10 @@ private:
     }
     void check_file_del();
     void check_file_update();
+    void store_bc(std::string msg)
+    {
+        ws_broadcast("^/store$", msg);
+    }
     void broadcast(bool immediate = false);
 public:
     Ebook(fs::path www_path, fs::path data_path, fs::path cache_path)

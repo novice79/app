@@ -11,10 +11,9 @@ std::string Ebook::time_to_str(std::time_t t)
 }
 void Ebook::broadcast(bool immediate)
 {
-    static auto bc = std::bind(&Ebook::ws_broadcast, this, "^/store$", ph::_1);
     if(immediate)
     {
-        bc(json::serialize( files() ));
+        store_bc(json::serialize( files() ));
         return;
     }
     // throttle broadcast 2s
@@ -28,12 +27,12 @@ void Ebook::broadcast(bool immediate)
     cron_job([this](auto* app){
         if(pending)
         {
-            bc(json::serialize( files() ));
+            store_bc(json::serialize( files() ));
             pending = false;
         }
         busy = false;
     }, bpt::seconds(2) );
-    bc(json::serialize( files() ));
+    store_bc(json::serialize( files() ));
 }
 void Ebook::check_file_del()
 {
