@@ -38,6 +38,12 @@ class Util {
         });
         return res;
     }
+    async get_files(path = ''){
+        const res = await this.post_data(import.meta.env.DEV? `${debugUrl}/files`:'/files', path)
+        const files = await res.json();
+        // console.log(`get files from ${path}`, files)
+        return files;
+    }
     upload_file(file, stepCb, finishCb, url = '/upload') {
         let loaded = 0;
         let step = 1048576; //1024*1024; size of one chunk

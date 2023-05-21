@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAtom } from 'jotai'
-import { fileAtom, filterAtom } from './atom'
+import { fileAtom } from './atom'
 import Box from '@mui/material/Box';
 import { Download, Delete } from '@mui/icons-material';
 import DeleteDialog from './DeleteDialog'
@@ -9,10 +9,9 @@ import { useTranslation } from 'react-i18next';
 
 export default function Files() {
     const [ files, setFile ] = useAtom(fileAtom)
-    const [ filterTxt, setFilterTxt ] = useAtom(filterAtom)
     const { t, i18n } = useTranslation();
     const listItems = files
-        .filter(fi=>filterTxt? fi.name.includes(filterTxt) && fi : fi)
+        // .filter(fi=>filterTxt? fi.name.includes(filterTxt) && fi : fi)
         .map( fi =>
         <React.Fragment key={fi.name}>
             <Box sx={{ 
@@ -42,7 +41,8 @@ export default function Files() {
                             const url = import.meta.env.DEV? 
                             `${debugUrl}/del` 
                             :`/del`
-                            util.post_data(url, fi.path);
+                            util.post_data(url, JSON.stringify([fi.path]), 
+                            {'Content-Type': 'application/json'} );
                     }}/>
        
                 </Box>

@@ -3,14 +3,13 @@ import Box from '@mui/material/Box';
 import { Store, Upload, List, GetApp } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { useAtom } from 'jotai'
-import { isListAtom, uploadAtom, uploadCountAtom } from './atom'
-import SearchBar from './SearchBar'
+import { uploadAtom, uploadCountAtom } from './atom'
+
 import _ from 'lodash'
 import util from "./util";
 export default function IconAppBar() {
   const [appUrl, setAppUrl] = useState("");
   const inputFileRef = useRef( null );
-  const [ isList, setIsList ] = useAtom(isListAtom)
   const [ upload, setUpload ] = useAtom(uploadAtom)
   const [ count, setCount ] = useAtom(uploadCountAtom)
   let url = '/upload';
@@ -27,7 +26,7 @@ export default function IconAppBar() {
     util.post_data(import.meta.env.DEV? `${debugUrl}/app_url`:'/app_url')
     .then((res) => res.text())
     .then(url => {
-      console.log(url)
+      console.log(`app_url=${url}`)
       setAppUrl(url)
     })
     .catch((err) => console.log('error', err))
@@ -70,18 +69,15 @@ export default function IconAppBar() {
           <Store sx={{ fontSize: '2.5rem', pr : 1.7 }} />
         }
         
-        <SearchBar/>
+
         <Box sx={{ 
           flexGrow: 1, mr: 1.5,
           display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}
           onClick={()=>{
-            setIsList(l=> !l)
+
           }}
         >
-          <List sx={ isList && {
-            border: '3px inset',
-            backgroundColor: 'grey'
-          } || {cursor: 'pointer'}} size="large"/>
+
         </Box>
         <IconButton
           size="large"
@@ -97,7 +93,6 @@ export default function IconAppBar() {
         </IconButton>
         
         <input type="file" multiple
-          accept=".epub"
           ref={inputFileRef} 
           onChange={processFile}
           hidden
