@@ -11,7 +11,7 @@ export default function Books() {
     const [ progress, setProgress ] = useAtom(progressAtom)
     const [ , setCurrentBook ] = useAtom(currentBookAtom)
     const navigate = useNavigate()
-
+    console.log(`book count = ${books.length}`)
     const listItems = books
         .map( fi =>
         <React.Fragment key={`${fi.title}-${fi.author}`}>

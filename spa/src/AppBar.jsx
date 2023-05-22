@@ -27,7 +27,7 @@ export default function IconAppBar() {
     util.post_data(import.meta.env.DEV? `${debugUrl}/app_url`:'/app_url')
     .then((res) => res.text())
     .then(url => {
-      console.log(url)
+      // console.log(url)
       setAppUrl(url)
     })
     .catch((err) => console.log('error', err))

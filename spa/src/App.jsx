@@ -10,30 +10,9 @@ import { useAtom } from 'jotai'
 import { isListAtom, fileAtom, uploadAtom, uploadCountAtom } from './atom'
 import './App.css'
 import util from "./util";
-import handle_epub from "./EpubInfo";
+import WS from "./ws";
+import epubParser from "./EpubInfo";
 
-let ws;
-function ws_uri() {
-  let loc = window.location, ws_uri, h = loc.host;
-  if (loc.protocol === "https:") {
-    ws_uri = "wss:";
-  } else if (loc.protocol === "http:") {
-    ws_uri = "ws:";
-  } else {
-    ws_uri = "ws:";
-    h = `localhost:7777`;
-  }
-  if (import.meta.env.DEV) {
-    h = `192.168.0.60:7777`;
-    // console.log(`[ws_uri] app is running in development mode`)
-  } else {
-    // console.log(`[ws_uri] app is running in production mode`)
-  }
-
-  ws_uri += "//" + h + "/store";
-  console.log(ws_uri)
-  return ws_uri;
-}
 function progress_cap(f) {
   return `${util.truncate(f.name)}${util.formatFileSize(f.size)}`
 }
@@ -60,25 +39,15 @@ function App() {
     document.title = t('html-title')
     // console.log(`document.title=${document.title}`)
   }, [lng]);
-  function ws_connect(){
-    ws = new WebSocket(ws_uri());
-    ws.onmessage = function (event) {
-      try {
-        // console.log('recieved data from ws')
-        const data = JSON.parse(event.data)
-        // console.log(data)
-        handle_epub(data)
-        setFile(data)
-      } catch (err) {
-        console.log(err, event.data)
-      }
-    };
-    ws.onclose = ()=>setTimeout(ws_connect, 100)
-  }
+  
   useEffect(() => {
-    ws_connect()
+    const ws = new WS('/store', msg=>{
+      const data = JSON.parse(msg)
+      epubParser.files = data
+      setFile(data)
+    })
     //clean up function
-    return () => ws.close();
+    return ws.close;
   }, []);
   // do not use brace
   const progressBars = _.map(uploadRef.current, f =>

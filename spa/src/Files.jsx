@@ -11,6 +11,7 @@ export default function Files() {
     const [ files, setFile ] = useAtom(fileAtom)
     const [ filterTxt, setFilterTxt ] = useAtom(filterAtom)
     const { t, i18n } = useTranslation();
+    // console.log(`files count = ${files.length}`)
     const listItems = files
         .filter(fi=>filterTxt? fi.name.includes(filterTxt) && fi : fi)
         .map( fi =>

@@ -9,8 +9,8 @@ export default defineConfig({
   plugins: [react()],
   build: {
     // for older browser or webview?
-    // or chrome66?
-    target: 'es2017',
+    // es2017 or chrome66?
+    target: 'chrome66',
     outDir: `../dist/www`,
     emptyOutDir: true,
     // chunkSizeWarningLimit: 800,
