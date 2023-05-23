@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -8,24 +7,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useTranslation } from 'react-i18next';
 export default function DeleteDialog(props) {
-    const { sx, title, content, okCB } = props;
-    const [open, setOpen] = useState(false);
+    const { open, handleClose, title, content, okCB } = props;
     const { t, i18n } = useTranslation();
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // useEffect(() => {
+    //     console.log(`open=${open}`)
+    //   }, [open]);
     return (
         <>
-            <DeleteIcon sx={{
-                ...{ mr: 1, cursor: 'pointer' },
-                ...sx
-            }}
-                onClick={handleClickOpen}>
-            </DeleteIcon>
             <Dialog
                 open={open}
                 onClose={handleClose}

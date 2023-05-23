@@ -109,7 +109,9 @@ class Util {
     get_name_from_path(file_path) {
         return file_path.substring(file_path.lastIndexOf("/") + 1);
     }
-
+    get_store_path(path) {
+        return path.substring(path.indexOf("/store/"));
+    }
     hash_code(str) {
         let hash = 0;
         for (var i = 0; i < str.length; i++) {

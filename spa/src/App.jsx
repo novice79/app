@@ -3,11 +3,12 @@ import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import AppBar from './AppBar'
+import PosBar from './PosBar'
 import Files from './Files'
 
 import _ from 'lodash'
 import { useAtom } from 'jotai'
-import { fileAtom, uploadAtom, uploadCountAtom } from './atom'
+import { fileAtom, uploadAtom, uploadCountAtom, dirStrAtom } from './atom'
 import './App.css'
 import util from "./util";
 import WS from "./ws";
@@ -18,6 +19,7 @@ function progress_cap(f) {
 
 function App() {
   const [, setFile] = useAtom(fileAtom)
+  const [ dirStr ] = useAtom(dirStrAtom)
   const [upload] = useAtom(uploadAtom)
   const [count] = useAtom(uploadCountAtom)
   const [lng, setLng] = useState(navigator.language);
@@ -42,7 +44,7 @@ function App() {
     util.get_files().then( files=>setFile(files) )
     const ws = new WS( '/store', async msg=>{
       // console.log(`ws on_message, msg=${msg}`)
-      setFile(await util.get_files() )
+      setFile(await util.get_files(dirStr) )
     })
     //clean up function
     return ws.close;
@@ -57,6 +59,7 @@ function App() {
   // console.log(`progressBars=`,progressBars)
   return (
     <Box sx={{backgroundColor: 'lightgray', minHeight: '100vh'}}>
+      <PosBar/>
       <AppBar />
       {
         {

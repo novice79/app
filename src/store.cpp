@@ -112,6 +112,19 @@ void Store::start(int port)
             res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
         }
     })
+    .post("^/create_dir$", [this](auto *app, auto res, auto req) {
+        try {
+            // cout << req->content.string() << endl;
+            fs::path p{req->content.string()};
+            p = store_path_ / p;
+            fs::create_directories(p);
+            broadcast(true);
+            res->write(SimpleWeb::StatusCode::success_ok); 
+        }
+        catch(const exception &e) {
+            res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
+        }
+    })
     .post("^/app_url$", [this](auto *app, auto res, auto req) {
         res->write(SimpleWeb::StatusCode::success_ok); 
     })

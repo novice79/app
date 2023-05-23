@@ -4,7 +4,8 @@ import { Store, Upload, List, GetApp } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { useAtom } from 'jotai'
 import { uploadAtom, uploadCountAtom } from './atom'
-
+import TypeSelect from './TypeSelect'
+import SortSelect from './SortSelect'
 import _ from 'lodash'
 import util from "./util";
 export default function IconAppBar() {
@@ -54,30 +55,25 @@ export default function IconAppBar() {
   }
   return (
     <Box sx={{
-      bgcolor: '#222', height: '3rem', color: 'white',
-      display: 'flex', alignItems: 'center',
-      position: 'fixed', width: '100%', zIndex: 9
+      bgcolor: 'rgb(130, 233, 247)', height: '3.5rem',
+      display: 'flex', alignItems: 'center', border: '2px inset',
+      position: 'fixed', width: '100%', zIndex: 3, top: '2.5rem'
       }}>
         {appUrl 
           && 
           <a href={appUrl} style={{display: 'block'}}
             download={util.get_name_from_path(appUrl)}
             target="_blank" rel="noopener noreferrer">
-              <GetApp  size="large" sx={{ transform: 'translateY(14%)', color: 'white', m: 1 }}/>
+              <GetApp  size="large" sx={{ transform: 'translateY(14%)', m: 1 }}/>
           </a>
-          || 
-          <Store sx={{ fontSize: '2.5rem', pr : 1.7 }} />
         }
         
-
         <Box sx={{ 
           flexGrow: 1, mr: 1.5,
-          display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}
-          onClick={()=>{
-
-          }}
+          display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}
         >
-
+          <TypeSelect/>
+          <SortSelect/>
         </Box>
         <IconButton
           size="large"
