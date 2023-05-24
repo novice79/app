@@ -34,7 +34,20 @@ void Store::broadcast(bool immediate)
     }, bpt::seconds(1) );
     store_bc("");
 }
-
+json::array Store::folders(fs::path p)
+{
+    json::array folders;
+    if( !fs::exists(p) ) return folders;
+    for (auto &&x : fs::directory_iterator(p))
+    {
+        auto &&p = x.path();
+        if( fs::is_directory(p) )
+        {
+            folders.emplace_back(p.string());
+        }
+    }
+    return folders;
+}
 void Store::start(int port)
 {
     cors()
@@ -86,11 +99,12 @@ void Store::start(int port)
     .post("^/move$", [this](auto *app, auto res, auto req) {
         try {
             auto data = json::parse(req->content.string()).as_object();
+            // cout<< data << endl;
             fs::path to_path{json::value_to<std::string>(data["to_path"])}; 
             for (auto&& p : data["files"].as_array())
             {
                 fs::path from{p.as_string().c_str()};
-                fs::path to{to_path / from.filename()};
+                fs::path to{store_path_ / to_path / from.filename()};
                 fs::rename(from, to );
             }
             broadcast(true);
@@ -107,6 +121,18 @@ void Store::start(int port)
             p = store_path_ / p;
             if( !fs::exists(p) ) throw std::runtime_error(p.string() + " does not exist");
             res->write(json::serialize( fm->file_info(p) )); 
+        }
+        catch(const exception &e) {
+            res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
+        }
+    })
+    .post("^/folders$", [this](auto *app, auto res, auto req) {
+        try {
+            // cout << req->content.string() << endl;
+            fs::path p{req->content.string()};
+            p = store_path_ / p;
+            if( !fs::exists(p) ) throw std::runtime_error(p.string() + " does not exist");
+            res->write(json::serialize( folders(p) )); 
         }
         catch(const exception &e) {
             res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());

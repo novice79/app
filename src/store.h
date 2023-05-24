@@ -13,6 +13,7 @@ private:
         ws_broadcast("^/store$", msg);
     }
     void broadcast(bool immediate = false);
+    json::array folders(fs::path p);
 public:
     Store(fs::path www_path, fs::path data_path, fs::path cache_path)
     :www_path_(std::move(www_path)),

@@ -44,6 +44,12 @@ class Util {
         // console.log(`get files from ${path}`, files)
         return files;
     }
+    async get_folders(path = ''){
+        const res = await this.post_data(getUrl('/folders'), path)
+        const folders = await res.json();
+        // console.log(`get folders from ${path}`, folders)
+        return folders;
+    }
     upload_file(file, stepCb, finishCb, url = '/upload') {
         let loaded = 0;
         let step = 1048576; //1024*1024; size of one chunk

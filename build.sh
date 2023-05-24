@@ -25,6 +25,7 @@ cmake -GNinja -H"src" -B$dir \
 cmake --build $dir
 cmake --install $dir
 
+exit 0
 
 cd spa && npm i && npm run build && cd -
 [ -x ./copy-res.sh ] && ./copy-res.sh

@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 import AppBar from './AppBar'
 import PosBar from './PosBar'
 import Files from './Files'
-
+import ToFolderDialog from './ToFolderDialog'
 import _ from 'lodash'
 import { useAtom } from 'jotai'
-import { fileAtom, uploadAtom, uploadCountAtom, dirStrAtom } from './atom'
+import { fileAtom, fileToBeMovedAtom, uploadAtom, uploadCountAtom, dirStrAtom } from './atom'
 import './App.css'
 import util from "./util";
 import WS from "./ws";
@@ -19,6 +19,7 @@ function progress_cap(f) {
 
 function App() {
   const [, setFile] = useAtom(fileAtom)
+  const [ fileToBeMoved, setFileToBeMoved ] = useAtom(fileToBeMovedAtom)
   const [ dirStr ] = useAtom(dirStrAtom)
   const [upload] = useAtom(uploadAtom)
   const [count] = useAtom(uploadCountAtom)
@@ -73,6 +74,7 @@ function App() {
           // 'audio': <Audio />
         }['files']
       }
+      {fileToBeMoved.length > 0 && <ToFolderDialog/>}
       <Drawer
         anchor='bottom'
         open={count > 0}
