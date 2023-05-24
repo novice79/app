@@ -7,17 +7,28 @@ import { useTranslation } from 'react-i18next';
 import util from "../util";
 import FileMenu from './FileMenu'
 function ItemIcon({type}) {
-    if(type == 'dir') return <Folder/>
-    if(type.includes('image/')) return <Image/>
-    if(type.includes('audio/')) return <Audiotrack/>
-    if(type.includes('video/')) return <OndemandVideo/>
+    if(type == 'dir') return <Folder sx={{ color: 'rgb(199, 173, 87)' }}/>
+    if(type.includes('image/')) return <Image color="secondary" />
+    if(type.includes('audio/')) return <Audiotrack color="primary" />
+    if(type.includes('video/')) return <OndemandVideo color="success" />
     return <InsertDriveFile/>
 }
-let orig = false
+function Preview({type, path}) {
+    if(type.includes('image/')) return <img src={getUrl(util.get_store_path(path))} />
+    if(type.includes('audio/')) return <audio src={getUrl(util.get_store_path(path))} controls/>
+    if(type.includes('video/')) return <video src={getUrl(util.get_store_path(path))} controls/>
+    return <div/>
+}
+import { useAtom } from 'jotai'
+import { fileAtom, dirAtom, dirStrAtom } from '../atom'
 export default function FileItem(props) {
     const { name, time, path, type, size, ext, open, setOpenMenuId, delCB } = props;
-    
+    const [preview, setPreview] = useState(false);
+    const [ , setFile] = useAtom(fileAtom)
+    const [ , setDir ] = useAtom(dirAtom)
+    const [ dirStr ] = useAtom(dirStrAtom)
     const { t } = useTranslation();
+
     return (
         <Box sx={{
             display: 'flex',
@@ -29,12 +40,25 @@ export default function FileItem(props) {
             maxWidth: '100%',
           }}>
             <ItemIcon type={type}/>
-            <div style={{flex: 1, margin: '0 0.4em'}}>
+            <div style={{flex: 1, margin: '0 0.4em'}} onClick={ async ()=>{
+                if(type == 'dir') {
+                    try {                        
+                        // console.log(`${dirStr}/${name}`)
+                        setFile(await util.get_files(`${dirStr}/${name}`) )
+                        setDir(d=> d.push(name) && [...d])                   
+                    } catch (error) {
+                        
+                    }                  
+                    return
+                }
+                setPreview(p=>!p)
+            }}>
                 <div style={{wordBreak: 'break-all'}}>{name}</div>
                 <div style={{display: 'flex', fontSize: '0.7rem'}}>
                     <div>{time}</div>
                     {type != 'dir' && <div style={{marginLeft: 'auto'}}>{util.formatFileSize(size)}</div>}
                 </div>
+                {preview && <Preview {...{type, path}}/>}
             </div>
             <div style={{position: 'relative'}} onClick={()=>setOpenMenuId(path)}>
                 <div style={{

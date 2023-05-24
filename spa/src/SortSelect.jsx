@@ -1,15 +1,16 @@
-import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import { ArrowUpward, ArrowDownward, SelectAll } from '@mui/icons-material';
+import { useAtom } from 'jotai'
+import { ascendAtom, sortTypeAtom } from './atom'
 export default function SortSelect() {
-    const [type, setType] = React.useState('name');
-
+    const [ ascend, setAscend ] = useAtom(ascendAtom)
+    const [ sortType, setSortType ] = useAtom(sortTypeAtom)
     const handleChange = (event) => {
-        setType(event.target.value);
+        setSortType(event.target.value);
     };
 
     return (
@@ -18,7 +19,7 @@ export default function SortSelect() {
                 <InputLabel id="sort-by">SortBy</InputLabel>
                 <Select
                     labelId="sort-by"
-                    value={type}
+                    value={sortType}
                     label="SortBy"
                     onChange={handleChange}
                 >
@@ -44,9 +45,12 @@ export default function SortSelect() {
                     </MenuItem>
                 </Select>
             </FormControl>
-            {true 
-            ? <ArrowUpward sx={{ml: 1.5, cursor: 'pointer'}}/> 
-            : <ArrowDownward sx={{ml: 1.5, cursor: 'pointer'}}/> }
+            <div onClick={()=>setAscend(a=>!a)}>
+                {ascend 
+                ? <ArrowUpward sx={{ml: 1.5, cursor: 'pointer'}}/> 
+                : <ArrowDownward sx={{ml: 1.5, cursor: 'pointer'}}/> }
+            </div>
+            
         </div>
     );
 }

@@ -16,21 +16,26 @@ export default function PosBar() {
   const handleClose = () => {
     setOpen(false);
   };
+  function handleCreate(name){
+    const url = getUrl('/create_dir')
+    const data = `${dirStr}/${name}`
+    console.log(`url=${url}; data=${data}`)
+    util.post_data(url, data)
+    handleClose()
+  }
   return (
     <Box sx={{
       bgcolor: 'rgb(177, 250, 250)', height: '2.5rem', color: 'black',
       display: 'flex', alignItems: 'center', 
       position: 'fixed', width: '100%', zIndex: 4
       }}>
-        <Store sx={{ fontSize: '2.5rem', pr : 1.7 }} />
-        
-
+        <Store sx={{ color: '#007DCD', fontSize: '2.5rem', pr : 1.7 }} />
         <Box sx={{ flexGrow: 1, overflow: 'auto'}}>
         {dirStr}
         </Box>
-        <KeyboardBackspace sx={{mr: '1rem'}}/>
-        <CreateNewFolder sx={{mr: '1rem'}} onClick={e=>setOpen(true)}/>
-        <CreateFolderDialog open={open} handleClose={handleClose}/>
+        <KeyboardBackspace sx={{mr: '1rem', color: 'green'}} onClick={()=>setDir(d=>d.pop() && [...d] || [])}/>
+        <CreateNewFolder sx={{mr: '1rem', color: 'rgb(199, 173, 87)'}} onClick={e=>setOpen(true)}/>
+        <CreateFolderDialog open={open} handleClose={handleClose} handleCreate={handleCreate}/>
     </Box>
   );
 }

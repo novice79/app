@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useAtom } from 'jotai'
-import { fileAtom } from './atom'
+import { fileAtom, ascendAtom, sortTypeAtom } from './atom'
 import Box from '@mui/material/Box';
 import { Download, Delete } from '@mui/icons-material';
 import DeleteDialog from './DeleteDialog'
@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next';
 
 export default function Files() {
     const [ files, setFile ] = useAtom(fileAtom)
+    const [ ascend ] = useAtom(ascendAtom)
+    const [ sortType ] = useAtom(sortTypeAtom)
     const [id, setId] = useState('');
     const [delOpen, setDelOpen] = useState(false);
     const [fileName, setFileName] = useState('');
@@ -18,6 +20,13 @@ export default function Files() {
     const { t, i18n } = useTranslation();
     const listItems = files
         // .filter(fi=>filterTxt? fi.name.includes(filterTxt) && fi : fi)
+        .sort((a,b)=>{
+            // console.log('a=',a)
+            // console.log('b=',b)
+            const p1 = sortType == 'size' ? parseInt(a[sortType]) : a[sortType]
+            const p2 = sortType == 'size' ? parseInt(b[sortType]) : b[sortType]
+            return ascend ? p1 > p2 : p1 < p2
+        })
         .map( fi =>
         <React.Fragment key={fi.path}>
             <FileItem {...fi} open={fi.path == id} 
@@ -45,9 +54,7 @@ export default function Files() {
             <DeleteDialog title={t("you-sure")} content={fileName} open={delOpen}
                 handleClose={()=>setDelOpen(false)}
                 okCB={()=>{
-                    const url = import.meta.env.DEV? 
-                    `${debugUrl}/del` 
-                    :`/del`
+                    const url = getUrl('/del')
                     util.post_data(url, JSON.stringify([filePath]), 
                     {'Content-Type': 'application/json'} );
             }}/>

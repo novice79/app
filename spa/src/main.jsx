@@ -28,6 +28,8 @@ window.addEventListener("languagechange", (event) => {
   i18n.changeLanguage(lng);
 });
 window.debugUrl = 'http://192.168.0.23:7778'
+window.getUrl = uri => import.meta.env.DEV ? `${debugUrl}${uri}` : uri
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />

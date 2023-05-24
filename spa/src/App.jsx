@@ -23,6 +23,7 @@ function App() {
   const [upload] = useAtom(uploadAtom)
   const [count] = useAtom(uploadCountAtom)
   const [lng, setLng] = useState(navigator.language);
+  const [changed, setChanged] = useState('');
   const { t } = useTranslation();
 
   const uploadRef = useRef();
@@ -39,12 +40,17 @@ function App() {
     document.title = t('html-title')
     // console.log(`document.title=${document.title}`)
   }, [lng]);
-  
+  useEffect(() => {
+    (async ()=>{
+      console.log(`ws or dir changed trigger; curDir=${dirStr}`)
+      setFile(await util.get_files(dirStr) )
+    })()
+  }, [changed, dirStr]);
   useEffect(() => {
     util.get_files().then( files=>setFile(files) )
     const ws = new WS( '/store', async msg=>{
-      // console.log(`ws on_message, msg=${msg}`)
-      setFile(await util.get_files(dirStr) )
+      // console.log(`ws on_message, msg=${msg}; curDir=${dirStr}`)
+      setChanged(`${Date.now()}`)
     })
     //clean up function
     return ws.close;
@@ -58,7 +64,7 @@ function App() {
   )
   // console.log(`progressBars=`,progressBars)
   return (
-    <Box sx={{backgroundColor: 'lightgray', minHeight: '100vh'}}>
+    <Box sx={{backgroundColor: 'white', minHeight: '100vh'}}>
       <PosBar/>
       <AppBar />
       {

@@ -48,7 +48,7 @@ void Store::start(int port)
         try {
             // cout << req->content.string() << endl;
             fs::path p{req->content.string()};
-            if( !fs::exists(p) ) throw p.string() + " does not exist";
+            if( !fs::exists(p) ) throw std::runtime_error(p.string() + " does not exist");
             fm->uncompress(p.string(), p.parent_path().string());
             res->write(SimpleWeb::StatusCode::success_ok); 
         }
@@ -59,7 +59,7 @@ void Store::start(int port)
     .post("^/zip$", [this](auto *app, auto res, auto req) {
         try {
             fs::path p{req->content.string()};
-            if( !fs::exists(p) ) throw p.string() + " does not exist";
+            if( !fs::exists(p) ) throw std::runtime_error(p.string() + " does not exist");
             fm->compress(p.append(".7z").string(), p.string());
             res->write(SimpleWeb::StatusCode::success_ok); 
         }
@@ -105,7 +105,7 @@ void Store::start(int port)
             // cout << req->content.string() << endl;
             fs::path p{req->content.string()};
             p = store_path_ / p;
-            if( !fs::exists(p) ) throw p.string() + " does not exist";
+            if( !fs::exists(p) ) throw std::runtime_error(p.string() + " does not exist");
             res->write(json::serialize( fm->file_info(p) )); 
         }
         catch(const exception &e) {
@@ -117,6 +117,7 @@ void Store::start(int port)
             // cout << req->content.string() << endl;
             fs::path p{req->content.string()};
             p = store_path_ / p;
+            // cout<< "create dir: " << p << endl;
             fs::create_directories(p);
             broadcast(true);
             res->write(SimpleWeb::StatusCode::success_ok); 
