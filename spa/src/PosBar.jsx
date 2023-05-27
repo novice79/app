@@ -31,10 +31,11 @@ export default function PosBar() {
       }}>
         <Store sx={{ color: '#007DCD', fontSize: '2.5rem', pr : 1.7 }} />
         <Box sx={{ flexGrow: 1, overflow: 'auto'}}>
-        {dirStr}
+        <b style={{color: 'purple'}}>{dirStr}</b>
         </Box>
-        <KeyboardBackspace sx={{mr: '1rem', color: 'green'}} onClick={()=>setDir(d=>d.pop() && [...d] || [])}/>
-        <CreateNewFolder sx={{mr: '1rem', color: 'rgb(199, 173, 87)'}} onClick={e=>setOpen(true)}/>
+        <KeyboardBackspace sx={{mr: '1rem', color: `${dirStr? 'green' : 'grey'}`, cursor: `${dirStr && 'pointer'}`}} 
+          onClick={()=>dirStr && setDir(d=>d.pop() && [...d] || [])}/>
+        <CreateNewFolder sx={{mr: '1rem', color: 'rgb(199, 173, 87)', cursor: 'pointer'}} onClick={e=>setOpen(true)}/>
         <CreateFolderDialog open={open} handleClose={handleClose} handleCreate={handleCreate}/>
     </Box>
   );

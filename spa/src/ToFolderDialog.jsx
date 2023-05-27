@@ -15,6 +15,7 @@ export default function ToFolderDialog() {
   const [folders, setFolders] = useState([]);
   const [ fileToBeMoved, setFileToBeMoved ] = useAtom(fileToBeMovedAtom)
   function handleClose(){
+    console.log(`handleClose`)
     setFileToBeMoved([])
   }
   function handleMove(){
@@ -22,6 +23,7 @@ export default function ToFolderDialog() {
       to_path: toDirStr,
       files: fileToBeMoved
     }
+    // console.log(data)
     util.post_data( getUrl('/move'), JSON.stringify(data) )
     handleClose()
   }
@@ -31,13 +33,14 @@ export default function ToFolderDialog() {
   }, [toDir]);
 
   return (
-    <div style={{ minWidth: '50vw', maxWidth: '80vw', maxHeight: '80vh', overflow: 'auto'}}>
+    <div style={{}}>
       <Dialog open={true} 
-        // fullWidth={true} maxWidth='md' 
+        fullWidth={true} 
+        // maxWidth='md' 
         onClose={handleClose}>
         <DialogTitle sx={{display: 'flex', alignItems: 'center'}}>
-          <div>To: {toDirStr}</div>
-          <KeyboardBackspace sx={{mr: '1rem', color: 'green', marginLeft: 'auto'}} 
+          <div>To: <i style={{color: 'purple'}}>{toDirStr}</i></div>
+          <KeyboardBackspace sx={{mr: '1rem', color: 'green', marginLeft: 'auto', cursor: 'pointer'}} 
             onClick={()=>{
               toDir.pop() 
               setToDir([...toDir])
@@ -45,7 +48,7 @@ export default function ToFolderDialog() {
         </DialogTitle>
         <DialogContent>
           {folders.map(f=>
-            <div key={f} style={{display: 'flex', alignItems: 'center'}}
+            <div key={f} style={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}
             onClick={()=>{
               const name = util.get_name_from_path(f)
               // console.log(`name=${name}`)

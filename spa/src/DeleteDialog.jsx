@@ -22,9 +22,11 @@ export default function DeleteDialog(props) {
                     {title}
                 </DialogTitle>
                 <DialogContent dividers={false}>
-                    <DialogContentText>
-                        {content}
-                    </DialogContentText>
+                    {
+                        content && content.map(i=>
+                            <div key={i}>{i}</div>
+                        )
+                    }
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>{t('cancel')}</Button>

@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.15",
     "buffer": "^6.0.3",
+    "draggabilly": "^3.0.0",
     "i18next": "^22.4.15",
     "jotai": "^2.0.3",
     "lodash": "^4.17.21",

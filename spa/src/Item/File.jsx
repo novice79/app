@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Folder, Image, Audiotrack, OndemandVideo, InsertDriveFile,
-    MoreVert, Download, Delete, CreateNewFolder } 
-from '@mui/icons-material';
+    MoreVert, Download, Delete, CreateNewFolder }  from '@mui/icons-material';
+
+import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import util from "../util";
@@ -22,13 +23,16 @@ function Preview({type, path}) {
 import { useAtom } from 'jotai'
 import { fileAtom, dirAtom, dirStrAtom } from '../atom'
 export default function FileItem(props) {
-    const { name, time, path, type, size, ext, open, setOpenMenuId, delCB } = props;
+    const { 
+        name, time, path, type, size, ext, open, setOpenMenuId, 
+        delCB, multiSel, checked, doCheck 
+    } = props;
     const [preview, setPreview] = useState(false);
     const [ , setFile] = useAtom(fileAtom)
     const [ , setDir ] = useAtom(dirAtom)
     const [ dirStr ] = useAtom(dirStrAtom)
     const { t } = useTranslation();
-
+    
     return (
         <Box sx={{
             display: 'flex',
@@ -39,6 +43,7 @@ export default function FileItem(props) {
             border: '2px inset black',
             maxWidth: '100%',
           }}>
+            {multiSel && <Checkbox checked={checked} onChange={e=>doCheck(path, e.target.checked)} />}
             <ItemIcon type={type}/>
             <div style={{flex: 1, margin: '0 0.4em'}} onClick={ async ()=>{
                 if(type == 'dir') {

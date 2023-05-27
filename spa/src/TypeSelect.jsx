@@ -1,13 +1,14 @@
-import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import { Store, Folder, Image, Audiotrack, OndemandVideo, InsertDriveFile } from '@mui/icons-material';
+import { useAtom } from 'jotai'
+import { filterTypeAtom } from './atom'
 export default function TypeSelect() {
-    const [type, setType] = React.useState('all');
 
+    const [ type, setType] = useAtom(filterTypeAtom)
     const handleChange = (event) => {
         setType(event.target.value);
     };

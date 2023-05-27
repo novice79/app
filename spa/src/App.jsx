@@ -5,10 +5,13 @@ import { useTranslation } from 'react-i18next';
 import AppBar from './AppBar'
 import PosBar from './PosBar'
 import Files from './Files'
+import Images from './Images'
+import Audios from './Audios'
+import Videos from './Videos'
 import ToFolderDialog from './ToFolderDialog'
 import _ from 'lodash'
 import { useAtom } from 'jotai'
-import { fileAtom, fileToBeMovedAtom, uploadAtom, uploadCountAtom, dirStrAtom } from './atom'
+import { fileAtom, filterTypeAtom, fileToBeMovedAtom, uploadAtom, uploadCountAtom, dirStrAtom } from './atom'
 import './App.css'
 import util from "./util";
 import WS from "./ws";
@@ -20,6 +23,7 @@ function progress_cap(f) {
 function App() {
   const [, setFile] = useAtom(fileAtom)
   const [ fileToBeMoved, setFileToBeMoved ] = useAtom(fileToBeMovedAtom)
+  const [ type, setType] = useAtom(filterTypeAtom)
   const [ dirStr ] = useAtom(dirStrAtom)
   const [upload] = useAtom(uploadAtom)
   const [count] = useAtom(uploadCountAtom)
@@ -65,14 +69,16 @@ function App() {
   )
   // console.log(`progressBars=`,progressBars)
   return (
-    <Box sx={{backgroundColor: 'white', minHeight: '100vh'}}>
+    <Box sx={{backgroundColor: 'rgb(180, 230, 236)', minHeight: '100vh'}}>
       <PosBar/>
       <AppBar />
       {
         {
-          'files': <Files />,
-          // 'audio': <Audio />
-        }['files']
+          'all': <Files />,
+          'image': <Images />,
+          'audio': <Audios />,
+          'video': <Videos />,
+        }[type]
       }
       {fileToBeMoved.length > 0 && <ToFolderDialog/>}
       <Drawer
