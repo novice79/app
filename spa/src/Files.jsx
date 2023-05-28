@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useAtom } from 'jotai'
-import { fileAtom, fileToBeMovedAtom, ascendAtom, sortTypeAtom, sortedFileAtom } from './atom'
+import { fileAtom, fileToBeMovedAtom, sortedFileAtom } from './atom'
 import Box from '@mui/material/Box';
 import { Menu, SelectAll, Deselect, DriveFileMove, DeleteForever } from '@mui/icons-material';
 import DeleteDialog from './DeleteDialog'
@@ -20,8 +20,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export default function Files() {
     const [ files, setFile ] = useAtom(fileAtom)
     const [ fileToBeMoved, setFileToBeMoved ] = useAtom(fileToBeMovedAtom)
-    const [ ascend ] = useAtom(ascendAtom)
-    const [ sortType ] = useAtom(sortTypeAtom)
     const [ sortedFile ] = useAtom(sortedFileAtom)
     const [id, setId] = useState('');
     const [delOpen, setDelOpen] = useState(false);
@@ -65,15 +63,6 @@ export default function Files() {
         return ()=>draggie.off( 'staticClick', toggleMultiSel)
     }, [])
     const listItems = 
-        // files
-        // .filter(fi=>filterTxt? fi.name.includes(filterTxt) && fi : fi)
-        // .sort((a,b)=>{
-        //     // console.log('a=',a)
-        //     // console.log('b=',b)
-        //     const p1 = sortType == 'size' ? parseInt(a[sortType]) : a[sortType]
-        //     const p2 = sortType == 'size' ? parseInt(b[sortType]) : b[sortType]
-        //     return ascend ? p1 > p2 : p1 < p2
-        // })
         sortedFile
         .map( fi =>
         <React.Fragment key={fi.path}>
