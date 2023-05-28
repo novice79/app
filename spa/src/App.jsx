@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from 'react-i18next';
 import AppBar from './AppBar'
 import PosBar from './PosBar'
@@ -11,13 +12,14 @@ import Videos from './Videos'
 import ToFolderDialog from './ToFolderDialog'
 import _ from 'lodash'
 import { useAtom } from 'jotai'
-import { fileAtom, filterTypeAtom, fileToBeMovedAtom, uploadAtom, uploadCountAtom, dirStrAtom } from './atom'
+import { fileAtom, filterTypeAtom, fileToBeMovedAtom, uploadAtom,
+   uploadCountAtom, dirStrAtom, pendingAtom } from './atom'
 import './App.css'
 import util from "./util";
 import WS from "./ws";
 
 function progress_cap(f) {
-  return `${util.truncate(f.name)}${util.formatFileSize(f.size)}`
+  return `${util.truncate(f.name)}-${util.formatFileSize(f.size)}`
 }
 
 function App() {
@@ -25,6 +27,7 @@ function App() {
   const [ fileToBeMoved, setFileToBeMoved ] = useAtom(fileToBeMovedAtom)
   const [ type, setType] = useAtom(filterTypeAtom)
   const [ dirStr ] = useAtom(dirStrAtom)
+  const [ pending ] = useAtom(pendingAtom)
   const [upload] = useAtom(uploadAtom)
   const [count] = useAtom(uploadCountAtom)
   const [lng, setLng] = useState(navigator.language);
@@ -81,6 +84,13 @@ function App() {
         }[type]
       }
       {fileToBeMoved.length > 0 && <ToFolderDialog/>}
+      {pending && 
+      <Box sx={{
+        position: 'absolute',
+        top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+        <CircularProgress />
+      </Box>
+      }
       <Drawer
         anchor='bottom'
         open={count > 0}

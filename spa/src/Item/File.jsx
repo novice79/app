@@ -47,13 +47,7 @@ export default function FileItem(props) {
             <ItemIcon type={type}/>
             <div style={{flex: 1, margin: '0 0.4em'}} onClick={ async ()=>{
                 if(type == 'dir') {
-                    try {                        
-                        // console.log(`${dirStr}/${name}`)
-                        setFile(await util.get_files(`${dirStr}/${name}`) )
-                        setDir(d=> d.push(name) && [...d])                   
-                    } catch (error) {
-                        
-                    }                  
+                    setDir(d=> d.push(name) && [...d])                   
                     return
                 }
                 setPreview(p=>!p)

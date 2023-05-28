@@ -116,7 +116,8 @@ class Util {
         return file_path.substring(file_path.lastIndexOf("/") + 1);
     }
     get_store_path(path) {
-        return path.substring(path.indexOf("/store/"));
+        // todo: in case user create dir named store
+        return path.substring(path.lastIndexOf("/store/"));
     }
     hash_code(str) {
         let hash = 0;
@@ -133,7 +134,9 @@ class Util {
     timeout(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-
+    is_zip_file(type){
+        return type.includes('/zip') || type.includes('/x-7z') || type.includes('/x-rar');
+    }
     toHHMMSS(s) {
         let sec_num = parseInt(s, 10); // don't forget the second param
         let hours = Math.floor(sec_num / 3600);

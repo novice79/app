@@ -6,6 +6,7 @@ const fileToBeMovedAtom = atom([])
 const dirAtom = atom([])
 const dirStrAtom = atom(get=> get(dirAtom).join("/"))
 const ascendAtom = atom(true)
+const pendingAtom = atom(false)
 const sortTypeAtom = atom('name')
 const sortedFileAtom = atom(get=> {
     const sortType = get(sortTypeAtom)
@@ -32,4 +33,5 @@ export {
     filterTypeAtom,
     uploadAtom,
     uploadCountAtom,
+    pendingAtom,
 }

@@ -63,7 +63,8 @@ void Store::start(int port)
             fs::path p{req->content.string()};
             if( !fs::exists(p) ) throw std::runtime_error(p.string() + " does not exist");
             fm->uncompress(p.string(), p.parent_path().string());
-            res->write(SimpleWeb::StatusCode::success_ok); 
+            broadcast();
+            res->write(SimpleWeb::StatusCode::success_ok);            
         }
         catch(const exception &e) {
             res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
@@ -73,8 +74,9 @@ void Store::start(int port)
         try {
             fs::path p{req->content.string()};
             if( !fs::exists(p) ) throw std::runtime_error(p.string() + " does not exist");
-            fm->compress(p.append(".7z").string(), p.string());
-            res->write(SimpleWeb::StatusCode::success_ok); 
+            fm->compress(p.string()+".7z", p.string());
+            broadcast();
+            res->write(SimpleWeb::StatusCode::success_ok);             
         }
         catch(const exception &e) {
             res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
