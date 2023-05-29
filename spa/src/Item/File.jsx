@@ -15,9 +15,16 @@ function ItemIcon({type}) {
     return <InsertDriveFile/>
 }
 function Preview({type, path}) {
-    if(type.includes('image/')) return <img src={getUrl(util.get_store_path(path))} />
-    if(type.includes('audio/')) return <audio src={getUrl(util.get_store_path(path))} controls/>
-    if(type.includes('video/')) return <video src={getUrl(util.get_store_path(path))} controls/>
+    const props = {
+        src: getUrl(util.get_store_path(path)),
+        style: {
+            width: '100%'
+        },
+        onClick: e=>e.stopPropagation()
+    }
+    if(type.includes('image/')) return <img {...props} />
+    if(type.includes('audio/')) return <audio {...props} controls/>
+    if(type.includes('video/')) return <video {...props} controls/>
     return <div/>
 }
 import { useAtom } from 'jotai'

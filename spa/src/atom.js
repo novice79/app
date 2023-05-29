@@ -22,6 +22,7 @@ const sortedFileAtom = atom(get=> {
 const filterTypeAtom = atom('all')
 const uploadAtom = atom({})
 const uploadCountAtom = atom(0)
+const inputAtom = atom([])
 export {
     fileAtom,
     fileToBeMovedAtom,
@@ -34,4 +35,5 @@ export {
     uploadAtom,
     uploadCountAtom,
     pendingAtom,
+    inputAtom,
 }

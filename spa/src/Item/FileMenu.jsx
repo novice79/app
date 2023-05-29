@@ -6,15 +6,28 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 
-import { Download, Delete, DriveFileMove, FolderZip, Archive, Unarchive } from '@mui/icons-material';
+import { Download, Delete, DriveFileMove, FolderZip, 
+    Archive, Unarchive, DriveFileRenameOutline } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useAtom } from 'jotai'
-import { fileToBeMovedAtom, pendingAtom } from '../atom'
+import { fileToBeMovedAtom, pendingAtom, inputAtom } from '../atom'
 import util from "../util";
+
 export default function FileMenu({ name, time, path, type, size, delCB }) {
     const { t, i18n } = useTranslation();
     const [ fileToBeMoved, setFileToBeMoved ] = useAtom(fileToBeMovedAtom)
     const [ , setPending ] = useAtom(pendingAtom)
+    const [ , setInput ] = useAtom(inputAtom)
+
+    function handleRename(new_name) {
+        const data = {
+            path,
+            new_name
+        }
+        setPending(true)
+        util.post_data(getUrl('/rename'), JSON.stringify(data))
+        .then(res=>setPending(false))
+    }
     return (
         <Paper sx={{ position: 'absolute', right: "1rem", zIndex: 2 }}>
             <MenuList dense>
@@ -35,6 +48,12 @@ export default function FileMenu({ name, time, path, type, size, delCB }) {
                     <ListItemText>Download</ListItemText>
                 </MenuItem>
                 }
+                <MenuItem onClick={()=>setInput(['Rename', "New Name", name, handleRename])}>
+                    <ListItemIcon>
+                        <DriveFileRenameOutline fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Rename</ListItemText>
+                </MenuItem>
                 <MenuItem onClick={() => {
                     delCB(name, path)
                 }}>
@@ -77,7 +96,7 @@ export default function FileMenu({ name, time, path, type, size, delCB }) {
                 </MenuItem>
                 }
             </MenuList>
-            
+
         </Paper>
     );
 }

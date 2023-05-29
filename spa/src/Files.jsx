@@ -98,32 +98,35 @@ export default function Files() {
                     // unSelAll()
             }}/>
             
-            <Box id='movable' sx={{position: 'absolute', top: '40%', left: '60%', cursor: 'pointer' }}>
+            <Box id='movable' sx={{
+                position: 'absolute', fontSize: '2rem',
+                top: '40%', left: '60%', cursor: 'pointer' }}>
                 <Box id="handle" sx={{
                     display: 'flex',
-                    backgroundColor: 'lightGrey', p: .5, borderRadius: '1rem'
+                    backgroundColor: 'lightGrey', p: .5, borderRadius: '1em'
                 }}>
-                    <Menu sx={{marginTop: 'auto'}}/>
+                    <Menu sx={{marginTop: 'auto', fontSize: '1em'}}/>
                 </Box>
-                <div style={{position: 'absolute', display: 'flex', borderRadius: '.5rem',
-                    left: '100%', top: '0.25rem', backgroundColor: 'rgba(211,211,211, 0.7)',
+                <div style={{position: 'absolute', display: 'flex', borderRadius: '.5em',
+                    left: '100%', top: '0.15em', backgroundColor: 'rgba(211,211,211, 0.7)',
                     overflow: 'hidden', width: `${multiSel? 'auto': '0'}`
                     }}>
-                    <SelectAll color="black" sx={{ml: 2}} onClick={e=>setSelAll(true)}/>
-                    <Deselect color="black" sx={{ml: 2}}  onClick={unSelAll}/>
+                    <SelectAll color="black" sx={{ml: 2, fontSize: '1em'}} onClick={e=>setSelAll(true)}/>
+                    <Deselect color="black" sx={{ml: 2, fontSize: '1em'}}  onClick={unSelAll}/>
                 </div>
-                <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', borderRadius: '.5rem',
-                    transform: 'translate(0.25rem, -7rem)', backgroundColor: 'rgba(211,211,211, 0.7)',
+                <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', borderRadius: '.5em',
+                    transform: 'translate(0.13em, -4.2em)', 
+                    backgroundColor: 'rgba(211,211,211, 0.7)',
                     overflow: 'hidden', height: `${multiSel? 'auto': '0'}`
                     }}>
-                    <DriveFileMove color="black" sx={{mb: 2}} onClick={()=>{
+                    <DriveFileMove color="black" sx={{mb: 2, fontSize: '1em'}} onClick={()=>{
                         const chosen = selAll ? _.map(files, 'path') : _.keys(selected)
                         // console.log('chosen=', chosen)
                         if(chosen.length == 0) return showMsg('No files selected')
                         setFileToBeMoved(chosen)
                         // unSelAll()
                     }}/>
-                    <DeleteForever color="black" sx={{mb: 2}} onClick={()=>{
+                    <DeleteForever color="black" sx={{mb: 2, fontSize: '1em'}} onClick={()=>{
                         const chosen = selAll ? _.map(files, 'path') : _.keys(selected)
                         if(chosen.length == 0) return showMsg('No files selected')
                         setFileName(chosen.map(p=>util.get_name_from_path(p)))

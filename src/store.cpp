@@ -116,6 +116,22 @@ void Store::start(int port)
             res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
         }
     })
+    .post("^/rename$", [this](auto *app, auto res, auto req) {
+        try {
+            auto data = json::parse(req->content.string()).as_object();
+            // cout<< data << endl;
+            auto new_name{json::value_to<std::string>(data["new_name"])}; 
+            fs::path from{json::value_to<std::string>(data["path"])}; 
+          
+            fs::path to{from.parent_path() / new_name};
+            fs::rename( from, to );           
+            broadcast(true);
+            res->write(SimpleWeb::StatusCode::success_ok); 
+        }
+        catch(const exception &e) {
+            res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
+        }
+    })
     .post("^/files$", [this](auto *app, auto res, auto req) {
         try {
             // cout << req->content.string() << endl;

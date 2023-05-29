@@ -8,6 +8,7 @@ import { dirAtom, dirStrAtom } from './atom'
 import _ from 'lodash'
 import util from "./util";
 import CreateFolderDialog from "./CreateFolderDialog";
+import InputDialog from "./InputDialog";
 export default function PosBar() {
   const [ dir, setDir ] = useAtom(dirAtom)
   const [ dirStr ] = useAtom(dirStrAtom)
@@ -37,6 +38,7 @@ export default function PosBar() {
           onClick={()=>dirStr && setDir(d=>d.pop() && [...d] || [])}/>
         <CreateNewFolder sx={{mr: '1rem', color: 'rgb(199, 173, 87)', cursor: 'pointer'}} onClick={e=>setOpen(true)}/>
         <CreateFolderDialog open={open} handleClose={handleClose} handleCreate={handleCreate}/>
+        <InputDialog/>
     </Box>
   );
 }
