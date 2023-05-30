@@ -52,8 +52,8 @@ void Store::start(int port)
 {
     cors()
     .serve_dir("*", www_path_)
-    .serve_dir("/store", store_path_)
-    .serve_dir("/cache", cache_path_)
+    .serve_dir("/store", store_path_, true)
+    .serve_dir("/cache", cache_path_, true)
     .upload("^/upload$", store_path_, [this](auto *app, auto path) { 
         ws_broadcast("^/store$", path); 
     })

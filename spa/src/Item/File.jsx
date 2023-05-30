@@ -69,7 +69,7 @@ export default function FileItem(props) {
             <div style={{position: 'relative'}} onClick={()=>setOpenMenuId(path)}>
                 <div style={{
                     fontSize: '1.7em', 
-                    margin: '0.1em 0.5em',
+                    padding: '0.1em 0.5em',
                     cursor: 'pointer'
                 }}>&#8942;</div>
                 {open && <FileMenu {...props}/>}

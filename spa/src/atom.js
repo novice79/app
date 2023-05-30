@@ -15,8 +15,9 @@ const sortedFileAtom = atom(get=> {
         let p1 = a[sortType]
         let p2 = b[sortType]
         if(sortType == 'size'){
-            p1 = parseInt(a[sortType]) 
-            p2 = parseInt(b[sortType])
+            // if type == dir, size will be 0
+            p1 = a[sortType] ? parseInt(a[sortType]) : 0
+            p2 = b[sortType] ? parseInt(b[sortType]) : 0
             return ascend ? p1 - p2 : p2 - p1
         }
         return ascend ? p1.localeCompare(p2) : p2.localeCompare(p1)
