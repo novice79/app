@@ -56,16 +56,14 @@ export default function IconAppBar() {
   return (
     <Box sx={{
       bgcolor: 'rgb(130, 233, 247)', height: '3.5rem',
-      display: 'flex', alignItems: 'center', border: '2px inset',
+      display: 'flex', alignItems: 'center', 
+      border: '2px inset',
       position: 'fixed', width: '100%', zIndex: 3, top: '2.5rem'
       }}>
-        {appUrl 
-          && 
-          <a href={appUrl} style={{display: 'block'}}
-            download={util.get_name_from_path(appUrl)}
-            target="_blank" rel="noopener noreferrer">
-              <GetApp  size="large" sx={{ transform: 'translateY(14%)', m: 1 }}/>
-          </a>
+        {
+          appUrl && 
+          <GetApp  size="large" sx={{ transform: 'translateY(0%)', m: 1 }} 
+            onClick={()=>util.download(appUrl)}/>
         }
         
         <Box sx={{ 

@@ -27,10 +27,10 @@ export default function PosBar() {
   return (
     <Box sx={{
       bgcolor: 'rgb(177, 250, 250)', height: '2.5rem', color: 'black',
-      display: 'flex', alignItems: 'center', 
+      display: 'flex', alignItems: 'center', border: '2px inset',
       position: 'fixed', width: '100%', zIndex: 4
       }}>
-        <Store sx={{ color: '#007DCD', fontSize: '2.5rem', pr : 1.7 }} />
+        <Store sx={{ color: 'black', fontSize: '2.5rem', pr : 1.7 }} />
         <Box sx={{ flexGrow: 1, overflow: 'auto'}}>
         <b style={{color: 'purple'}}>{dirStr}</b>
         </Box>

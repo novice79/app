@@ -5,6 +5,17 @@ class Util {
     uuid() {
         return uuidv1();
     }
+    async download(url){
+        const blob = await fetch(url).then(res => res.blob());
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(blob)
+        // a.target = "_blank" 
+        // a.rel = "noopener noreferrer"
+        a.download = url.split('/').pop()
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+    }
     randomInt(low = 0, high = 4294967295) {
         return Math.floor(Math.random() * (high - low) + low)
     }

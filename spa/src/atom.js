@@ -12,10 +12,16 @@ const sortedFileAtom = atom(get=> {
     const sortType = get(sortTypeAtom)
     const ascend = get(ascendAtom)
     const sorted = get(fileAtom).sort((a,b)=>{
-        const p1 = sortType == 'size' ? parseInt(a[sortType]) : a[sortType]
-        const p2 = sortType == 'size' ? parseInt(b[sortType]) : b[sortType]
-        return ascend ? p1 > p2 : p1 < p2
+        let p1 = a[sortType]
+        let p2 = b[sortType]
+        if(sortType == 'size'){
+            p1 = parseInt(a[sortType]) 
+            p2 = parseInt(b[sortType])
+            return ascend ? p1 - p2 : p2 - p1
+        }
+        return ascend ? p1.localeCompare(p2) : p2.localeCompare(p1)
     })
+    // console.log(`sortType=${sortType};ascend=${ascend};sorted=`, sorted)
     // array/object need reset to deep clone
     return [...sorted]
 })

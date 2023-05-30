@@ -8,7 +8,7 @@ import util from "./util";
 import _ from 'lodash'
 import ImageItem from './Item/Image'
 import { useTranslation } from 'react-i18next';
-import Draggabilly from 'draggabilly'
+import { content } from './props';
 
 export default function Audio() {
 
@@ -16,9 +16,7 @@ export default function Audio() {
 
     const { t, i18n } = useTranslation();
     return (
-        <Box id='content' sx={{ width: '100%', position: 'fixed', top: '6rem', 
-            height: 'calc(100vh - 6rem)', overflow: 'auto'
-        }} >
+        <Box {...content}>
         {
             sortedFile
             .filter(fi=>fi.type.includes('image/'))

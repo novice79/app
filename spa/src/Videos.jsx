@@ -9,7 +9,7 @@ import _ from 'lodash'
 
 import { useTranslation } from 'react-i18next';
 import Draggabilly from 'draggabilly'
-
+import { content } from './props';
 export default function Videos() {
     const [ sortedFile ] = useAtom(sortedFileAtom)
     const videoFiles = useMemo(() => sortedFile.filter(fi => fi.type.includes('video/')), [sortedFile])
@@ -28,9 +28,7 @@ export default function Videos() {
         />)
 
     return (
-        <Box id='content' sx={{ width: '100%', position: 'fixed', top: '6rem', 
-            height: 'calc(100vh - 6rem)', overflow: 'auto'
-        }} >
+        <Box {...content}>
             {listItems}
             <Box id='movable' sx={{ position: 'absolute', top: '30%', left: '1rem', cursor: 'pointer' }}>
                 <Box id="handle" sx={{

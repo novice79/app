@@ -33,14 +33,8 @@ export default function FileMenu({ name, time, path, type, size, delCB }) {
             <MenuList dense>
                 {type != 'dir' &&
                 <MenuItem onClick={() => {
-                    let url = util.get_store_path(path)
-                    if (import.meta.env.DEV) url = debugUrl + url
-                    const a = document.createElement('a')
-                    a.href = url
-                    a.download = url.split('/').pop()
-                    document.body.appendChild(a)
-                    a.click()
-                    document.body.removeChild(a)
+                    const url = getUrl(util.get_store_path(path))
+                    util.download(url)
                 }}>
                     <ListItemIcon>
                         <Download fontSize="small" />

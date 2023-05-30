@@ -13,7 +13,7 @@ import Slide from '@mui/material/Slide';
 import { useTranslation } from 'react-i18next';
 import Draggabilly from 'draggabilly'
 import MuiAlert from '@mui/material/Alert';
-
+import { content } from './props';
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -81,9 +81,7 @@ export default function Files() {
     );
     // setId(`${Date.now()}`)
     return (
-        <Box id='content' sx={{ width: '100%', position: 'fixed', top: '6rem', 
-            height: 'calc(100vh - 6rem)', overflow: 'auto'
-        }} onClick={e=>{
+        <Box {...content} onClick={e=>{
             // console.log(e.target.getAttribute("style").includes('cursor: pointer'))
             const s = e.target.getAttribute("style")
             s && s.includes('cursor: pointer') || setId('')
