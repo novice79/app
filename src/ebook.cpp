@@ -115,7 +115,7 @@ void Ebook::start(int port)
     })
     // .schema files
     .serve_dir("*", www_path_)
-    .serve_dir("/store", store_path_)
+    .serve_dir("/store", store_path_, true)
     .serve_dir("/cache", cache_path_)
     .upload("^/upload$", store_path_, [this](auto *app, auto path) { 
         // logger->debug("upload %s completed\n", path);
