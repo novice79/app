@@ -4,7 +4,7 @@ Http local file server
 
 *Features:*
 
-1. Upload/Download big files concurrently, no size limit, only limit is the storage capacity.
+1. Upload/Download big files concurrently, no size limit, only limit is the device storage capacity.
 2. Create directory, move, delete, rename file, or batch move/delete files.
 3. Decompress zip/rar/7z file or compress folder to 7z file for better sharing.
 4. Sort files by name/time/size/type
@@ -25,3 +25,6 @@ Http local file server
 1. Start this app server on raspberry pi or android or iphone device
 2. Upload files from variety devices within the intranet using browser
 3. Start using or sharing
+
+PS:   
+All floating buttons can be dragged around, so they will not cover the content you want to see

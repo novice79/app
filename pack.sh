@@ -9,12 +9,13 @@ cd spa && npm i && npm run build && cd ..
 
 mkdir -p $appName
 mv -v dist/www $appName/
-cp -v install-systemd-service.sh $appName/
+sed -i "s/py-app/py-$appName/g" systemd-service.sh
+mv -v systemd-service.sh $appName/
 cat > $appName/readme.txt << EOF
 1. run ./app
 P.S: 
 If blocked on macos, you can open it in[System Settings --> Privacy & Security] Click "open anyway"
-If run on linux with systemd init system, you can install it as a service by run ./install-systemd-service.sh
+If run on linux with systemd init system, you can install it as a service by run ./systemd-service.sh
 
 2. use web browser open http://this-machine-ip:listening-port to use it
 
