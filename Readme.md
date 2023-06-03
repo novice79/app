@@ -28,3 +28,8 @@ Http local file server
 
 PS:   
 All floating buttons can be dragged around, so they will not cover the content you want to see
+
+
+# Demo video
+
+[![Store Android App Demo](https://img.youtube.com/vi/AZDc_MRu2LI/0.jpg)](https://www.youtube.com/watch?v=AZDc_MRu2LI)
