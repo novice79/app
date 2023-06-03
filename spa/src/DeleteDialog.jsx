@@ -29,12 +29,12 @@ export default function DeleteDialog(props) {
                     }
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>{t('cancel')}</Button>
+                    <Button onClick={handleClose}>{t('Cancel')}</Button>
                     <Button onClick={()=>{
                         okCB()
                         handleClose()
                     }} autoFocus>
-                        {t('yes')}
+                        {t('Yes')}
                     </Button>
                 </DialogActions>
             </Dialog>

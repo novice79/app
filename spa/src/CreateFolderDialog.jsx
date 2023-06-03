@@ -7,24 +7,26 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAtom } from 'jotai'
+import { useTranslation } from 'react-i18next';
 import { dirStrAtom } from './atom'
 export default function CreateFolderDialog({open, handleClose, handleCreate}) {
   const [ dirStr ] = useAtom(dirStrAtom)
   const [name, setName] = useState('');
+  const { t } = useTranslation();
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create New Folder</DialogTitle>
+        <DialogTitle>{t('Create New Folder')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Current Directory:             
+          {t('Current Directory:')}            
           </DialogContentText>
           <div style={{overflow: 'auto'}}>{dirStr}</div>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Folder Name"
+            label={t("Folder Name")}
             fullWidth
             variant="standard"
             value={name}
@@ -34,8 +36,8 @@ export default function CreateFolderDialog({open, handleClose, handleCreate}) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={()=>handleCreate(name)}>Create</Button>
+          <Button onClick={handleClose}>{t("cancel")}</Button>
+          <Button onClick={()=>handleCreate(name)}>{t("Create")}</Button>
         </DialogActions>
       </Dialog>
     </div>

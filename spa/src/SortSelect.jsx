@@ -5,10 +5,12 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import { ArrowUpward, ArrowDownward, SelectAll } from '@mui/icons-material';
 import { useAtom } from 'jotai'
+import { useTranslation } from 'react-i18next';
 import { ascendAtom, sortTypeAtom } from './atom'
 export default function SortSelect() {
     const [ ascend, setAscend ] = useAtom(ascendAtom)
     const [ sortType, setSortType ] = useAtom(sortTypeAtom)
+    const { t } = useTranslation();
     const handleChange = (event) => {
         setSortType(event.target.value);
     };
@@ -16,7 +18,7 @@ export default function SortSelect() {
     return (
         <div style={{ display: 'flex', alignItems: 'center', transform: 'translateY(.2rem)'}}>
             <FormControl sx={{ m: '0.1rem', minWidth: 100 }} size="small">
-                <InputLabel id="sort-by">SortBy</InputLabel>
+                <InputLabel id="sort-by">{t('SortBy')}</InputLabel>
                 <Select
                     labelId="sort-by"
                     value={sortType}
@@ -25,22 +27,22 @@ export default function SortSelect() {
                 >
                     <MenuItem value={'name'}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <div>Name</div>
+                            <div>{t('Name')}</div>
                         </Box>
                     </MenuItem>
                     <MenuItem value={'time'}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <div>Time</div>
+                            <div>{t('Time')}</div>
                         </Box>
                     </MenuItem>
                     <MenuItem value={'type'}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <div>Type</div>
+                            <div>{t('Type')}</div>
                         </Box>
                     </MenuItem>
                     <MenuItem value={'size'}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <div>Size</div>
+                            <div>{t('Size')}</div>
                         </Box>
                     </MenuItem>
                 </Select>

@@ -39,14 +39,14 @@ export default function FileMenu({ name, time, path, type, size, delCB }) {
                     <ListItemIcon>
                         <Download fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText>Download</ListItemText>
+                    <ListItemText>{t('Download')}</ListItemText>
                 </MenuItem>
                 }
                 <MenuItem onClick={()=>setInput(['Rename', "New Name", name, handleRename])}>
                     <ListItemIcon>
                         <DriveFileRenameOutline fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText>Rename</ListItemText>
+                    <ListItemText>{t('Rename')}</ListItemText>
                 </MenuItem>
                 <MenuItem onClick={() => {
                     delCB(name, path)
@@ -54,7 +54,7 @@ export default function FileMenu({ name, time, path, type, size, delCB }) {
                     <ListItemIcon>
                         <Delete fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText>Delete</ListItemText>
+                    <ListItemText>{t('Delete')}</ListItemText>
                 </MenuItem>
                 <MenuItem onClick={() => {
                     setFileToBeMoved([path])
@@ -62,7 +62,7 @@ export default function FileMenu({ name, time, path, type, size, delCB }) {
                     <ListItemIcon>
                         <DriveFileMove fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText>Move</ListItemText>
+                    <ListItemText>{t('Move')}</ListItemText>
                 </MenuItem>
                 {(type == 'dir' || util.is_zip_file(type)) &&<Divider />}
                 {type == 'dir' &&
@@ -74,7 +74,7 @@ export default function FileMenu({ name, time, path, type, size, delCB }) {
                     <ListItemIcon>
                         <Archive fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText>Archive</ListItemText>
+                    <ListItemText>{t('Archive')}</ListItemText>
                 </MenuItem>
                 }
                 { util.is_zip_file(type) &&
@@ -86,7 +86,7 @@ export default function FileMenu({ name, time, path, type, size, delCB }) {
                     <ListItemIcon>
                         <Unarchive fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText>Unarchive</ListItemText>
+                    <ListItemText>{t('Unarchive')}</ListItemText>
                 </MenuItem>
                 }
             </MenuList>

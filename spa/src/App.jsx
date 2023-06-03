@@ -13,7 +13,7 @@ import ToFolderDialog from './ToFolderDialog'
 import _ from 'lodash'
 import { useAtom } from 'jotai'
 import { fileAtom, filterTypeAtom, fileToBeMovedAtom, uploadAtom,
-   uploadCountAtom, dirStrAtom, pendingAtom } from './atom'
+   uploadCountAtom, dirAtom, dirStrAtom, pendingAtom } from './atom'
 import './App.css'
 import util from "./util";
 import WS from "./ws";
@@ -26,6 +26,7 @@ function App() {
   const [, setFile] = useAtom(fileAtom)
   const [ fileToBeMoved, setFileToBeMoved ] = useAtom(fileToBeMovedAtom)
   const [ type, setType] = useAtom(filterTypeAtom)
+  const [ , setDir ] = useAtom(dirAtom)
   const [ dirStr ] = useAtom(dirStrAtom)
   const [ pending ] = useAtom(pendingAtom)
   const [upload] = useAtom(uploadAtom)
@@ -51,7 +52,13 @@ function App() {
   useEffect(() => {
     (async ()=>{
       console.log(`ws or dir changed trigger; curDir=${dirStr}`)
-      setFile(await util.get_files(dirStr) )
+      try {
+        setFile(await util.get_files(dirStr) )
+      } catch (error) {
+        console.log(`get files from ${dirStr} failed`)
+        dirStr && setDir([])
+      }
+      
     })()
   }, [changed, dirStr]);
   useEffect(() => {

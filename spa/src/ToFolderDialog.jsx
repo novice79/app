@@ -7,12 +7,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Folder, KeyboardBackspace } from '@mui/icons-material';
 import { useAtom } from 'jotai'
+import { useTranslation } from 'react-i18next';
 import { fileToBeMovedAtom } from './atom'
 import util from "./util";
 export default function ToFolderDialog() {
   const [toDir, setToDir] = useState([]);
   const toDirStr = useMemo(()=>toDir.join('/'), [toDir])
   const [folders, setFolders] = useState([]);
+  const { t } = useTranslation();
   const [ fileToBeMoved, setFileToBeMoved ] = useAtom(fileToBeMovedAtom)
   function handleClose(){
     console.log(`handleClose`)
@@ -39,8 +41,8 @@ export default function ToFolderDialog() {
         // maxWidth='md' 
         onClose={handleClose}>
         <DialogTitle sx={{display: 'flex', alignItems: 'center'}}>
-          <div>To: <i style={{color: 'purple'}}>{toDirStr}</i></div>
-          <KeyboardBackspace sx={{mr: '1rem', color: 'green', marginLeft: 'auto', cursor: 'pointer'}} 
+          <div>{t('To')} <i style={{color: 'purple'}}>{toDirStr}</i></div>
+          <KeyboardBackspace sx={{mr: '1rem', color: `${toDirStr? 'green' : 'grey'}`, marginLeft: 'auto', cursor: 'pointer'}} 
             onClick={()=>{
               toDir.pop() 
               setToDir([...toDir])
@@ -60,8 +62,8 @@ export default function ToFolderDialog() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={()=>handleMove()}>Move</Button>
+          <Button onClick={handleClose}>{t('Cancel')}</Button>
+          <Button onClick={()=>handleMove()}>{t('Move')}</Button>
         </DialogActions>
       </Dialog>
     </div>
