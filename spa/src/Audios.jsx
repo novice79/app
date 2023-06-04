@@ -77,9 +77,9 @@ export default function Audio() {
                     fontSize: '0.8rem',
                     opacity: '0.79'
                 }}>
-                    <div><b style={{ color: 'red' }}>Drag this title to move</b></div>
-                    <div>Current Playback: &nbsp;&nbsp;
-                        <i>{currentAudio ? util.get_name_from_path(currentAudio) : 'None'}</i>
+                    <div><b style={{ color: 'red' }}>{t("Drag this title to move")}</b></div>
+                    <div>{t("Current Playback")}: &nbsp;&nbsp;
+                        <i>{currentAudio ? util.get_name_from_path(currentAudio) : t("None")}</i>
                     </div>
                 </Box>
                 <div>

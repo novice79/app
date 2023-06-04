@@ -39,9 +39,9 @@ export default function Videos() {
                     fontSize: '0.8rem',
                     opacity: '0.79'
                 }} onClick={e=>e.detail === 3 && setCurrentVideo('')}>
-                    <div><b style={{ color: 'red' }}>Drag this title to move</b></div>
-                    <div style={{margin: '.5rem 0'}}>Current Playback: &nbsp;&nbsp;
-                        <i>{currentVideo ? util.get_name_from_path(currentVideo) : 'None'}</i>
+                    <div><b style={{ color: 'red' }}>{t("Drag this title to move")}</b></div>
+                    <div style={{margin: '.5rem 0'}}>{t("Current Playback")}: &nbsp;&nbsp;
+                        <i>{currentVideo ? util.get_name_from_path(currentVideo) : t("None")}</i>
                     </div>
                 </Box>
                 <div>

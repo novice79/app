@@ -25,9 +25,8 @@ cmake -GNinja -H"src" -B$dir \
 cmake --build $dir
 cmake --install $dir
 
-rm -rf spa/node_modules
 cd spa && npm i && npm run build && cd -
-[ -x ./copy-res.sh ] && ./copy-res.sh
+# [ -x ./copy-res.sh ] && ./copy-res.sh
 cp -r $PWD/dist/www $PWD/dist/bin/
 printf "\nFYI:\n"
 echo "please run: ./dist/bin/app"

@@ -23,5 +23,8 @@
     "Move": "Move",
     "Archive": "Archive",
     "Unarchive": "Unarchive",
-    "To": "Move to:"
+    "To": "Move to:",
+    "Drag this title to move": "Drag this title to move",
+    "Current Playback": "Current Playback",
+    "None": "None"
 }

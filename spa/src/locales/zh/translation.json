@@ -23,5 +23,8 @@
     "Move": "移动",
     "Archive": "压缩",
     "Unarchive": "解压",
-    "To": "移动至:"
+    "To": "移动至:",
+    "Drag this title to move": "点此拖动",
+    "Current Playback": "当前播放",
+    "None": "无"
 }
