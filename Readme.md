@@ -36,3 +36,11 @@ There are open issues:
 # Demo video
 
 [![Android Ebook App Demo](https://img.youtube.com/vi/-8n4lYw5aIU/0.jpg)](https://www.youtube.com/watch?v=-8n4lYw5aIU)
+
+# Download
+
+Macos/Linux version auto build in [Release](https://github.com/novice79/app/releases/tag/v1.0-ebook)
+
+| Android | iOS |
+|:-:|:-:|
+| [<img src="misc/img/google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=piaoyun.ebook) | [<img src="misc/img/appstore-badge.png" height="50">](https://apps.apple.com/us/app/pyebook/id6449148682) |
