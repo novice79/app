@@ -32,7 +32,7 @@ window.addEventListener("languagechange", (event) => {
   console.log(`change to lng=${lng}`)
   i18n.changeLanguage(lng);
 });
-window.debugUrl = 'http://127.0.0.1:7777'
+window.debugUrl = 'http://192.168.0.23:7779'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />

@@ -25,9 +25,8 @@ cmake -GNinja -H"src" -B$dir \
 cmake --build $dir
 cmake --install $dir
 
-cd spa && npm i && npm run build && cd -
-[ -x ./copy-res.sh ] && ./copy-res.sh
-cp -r $PWD/dist/www $PWD/dist/bin/
-printf "\nFYI:\n"
-echo "please run: ./dist/bin/app"
-echo "and then use browser open http://localhost:7777/ to test spa app"
+# cd spa && npm i && npm run build && cd -
+# cp -r $PWD/dist/www $PWD/dist/bin/
+# printf "\nFYI:\n"
+# echo "please run: ./dist/bin/app"
+# echo "and then use browser open http://localhost:7779/ to test spa app"

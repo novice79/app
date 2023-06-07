@@ -1,10 +1,10 @@
-#include "ebook.h"
+#include "note.h"
 
 using namespace std;
 
 int main(int argc, char **argv)
 {
-    int port = 7777;
+    int port = 7779;
     if( argc > 1)
     {
         int t = std::atoi(argv[1]);
@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     auto www_path{exe_path / "www"}, 
          data_path{exe_path / "data"},
          cache_path{exe_path / "tmp"};
-    Ebook(std::move(www_path), std::move(data_path), std::move(cache_path))
+    Note(std::move(www_path), std::move(data_path), std::move(cache_path))
     .start(port);
     return 0;
 }

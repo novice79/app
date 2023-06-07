@@ -1,4 +1,5 @@
 import _ from 'lodash'
+const port = 7779
 class WS {
   constructor(endPoint, handleMessage) {
     this.ep = endPoint
@@ -58,10 +59,10 @@ class WS {
       ws_uri = "ws:";
     } else {
       ws_uri = "ws:";
-      h = `localhost:7777`;
+      h = `localhost:${port}`;
     }
     if (import.meta.env.DEV) {
-      h = `127.0.0.1:7777`;
+      h = `127.0.0.1:${port}`;
       // console.log(`[ws_uri] app is running in development mode`)
     } else {
       // console.log(`[ws_uri] app is running in production mode`)
