@@ -33,3 +33,9 @@ All floating buttons can be dragged around, so they will not cover the content y
 # Demo video
 
 [![Store Android App Demo](https://img.youtube.com/vi/AZDc_MRu2LI/0.jpg)](https://www.youtube.com/watch?v=AZDc_MRu2LI)
+
+# Download
+
+Macos/Linux version auto build in [Release](https://github.com/novice79/app/releases/tag/v1.0-store)
+
+[<img src="misc/img/google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=piaoyun.store)
