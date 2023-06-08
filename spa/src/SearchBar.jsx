@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAtom } from 'jotai'
-import { filterAtom } from './atom'
+import { keyWordAtom } from './atom'
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -49,9 +49,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchBar() {
-    const [ filterTxt, setFilterTxt ] = useAtom(filterAtom)
+    const [ keyWord, setKeyWord ] = useAtom(keyWordAtom)
     return (
-        <Box sx={{ mr: 2 }}>
+        <Box sx={{ margin: 'auto 2.5rem' }}>
             <Search>
                 <SearchIconWrapper>
                     <SearchIcon />
@@ -59,9 +59,9 @@ export default function SearchBar() {
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
-                    value={filterTxt}
+                    value={keyWord}
                     onChange={e=>{
-                        setFilterTxt(e.target.value)
+                        setKeyWord(e.target.value)
                     }}
                 />
             </Search>

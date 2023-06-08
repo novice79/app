@@ -12,9 +12,9 @@ private:
     {
         return db->exec_sql("select * from note;")["result"].as_array();
     }
-    void store_bc(std::string msg)
+    void note_bc(std::string msg)
     {
-        ws_broadcast("^/store$", msg);
+        ws_broadcast("^/note$", msg);
     }
     void broadcast(bool immediate = false);
 public:

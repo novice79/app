@@ -3,23 +3,22 @@ import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import AppBar from './AppBar'
-import Files from './Files'
-import Books from './Books'
+import Books from './Notes'
 import _ from 'lodash'
 import { useAtom } from 'jotai'
-import { isListAtom, fileAtom, uploadAtom, uploadCountAtom } from './atom'
+import { noteAtom, uploadAtom, uploadCountAtom } from './atom'
 import './App.css'
 import util from "./util";
 import WS from "./ws";
-import epubParser from "./EpubInfo";
+
 
 function progress_cap(f) {
   return `${util.truncate(f.name)}${util.formatFileSize(f.size)}`
 }
 
 function App() {
-  const [, setFile] = useAtom(fileAtom)
-  const [isList] = useAtom(isListAtom)
+  const [, setFile] = useAtom(noteAtom)
+
   const [upload, setUpload] = useAtom(uploadAtom)
   const [count, setCount] = useAtom(uploadCountAtom)
   const [lng, setLng] = useState(navigator.language);
@@ -41,9 +40,8 @@ function App() {
   }, [lng]);
   
   useEffect(() => {
-    const ws = new WS('/store', msg=>{
+    const ws = new WS('/note', msg=>{
       const data = JSON.parse(msg)
-      epubParser.files = data
       setFile(data)
     })
     //clean up function
@@ -60,7 +58,7 @@ function App() {
   return (
     <Box sx={{backgroundColor: 'lightgray', minHeight: '100vh'}}>
       <AppBar />
-      {isList ? <Files /> : <Books />}
+      <Books />
       <Drawer
         anchor='bottom'
         open={count > 0}

@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from './App'
-import EpubReader from './EpubReader'
+import Viewer from './Viewer'
 import ErrorPage from "./error-page";
 import './index.css'
 import '@fontsource/roboto/300.css';
@@ -22,8 +22,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/reader",
-    element: <EpubReader />,
+    path: "/view",
+    element: <Viewer />,
   },
 ]);
 window.addEventListener("languagechange", (event) => {

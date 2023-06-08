@@ -13,7 +13,7 @@ void Note::broadcast(bool immediate)
 {
     if(immediate)
     {
-        store_bc(json::serialize( notes() ));
+        note_bc(json::serialize( notes() ));
         return;
     }
     // throttle broadcast 2s
@@ -27,12 +27,12 @@ void Note::broadcast(bool immediate)
     cron_job([this](auto* app){
         if(pending)
         {
-            store_bc(json::serialize( notes() ));
+            note_bc(json::serialize( notes() ));
             pending = false;
         }
         busy = false;
     }, bpt::seconds(2) );
-    store_bc(json::serialize( notes() ));
+    note_bc(json::serialize( notes() ));
 }
 
 void Note::start(int port)
@@ -55,7 +55,7 @@ void Note::start(int port)
     .serve_dir("/cache", cache_path_)
     .upload("^/upload$", store_path_, [this](auto *app, auto path) { 
 
-        ws_broadcast("^/store$", json::serialize(notes())); 
+        ws_broadcast("^/note$", json::serialize(notes())); 
     })
     .post("^/get$", [this](auto *app, auto res, auto req) {
         auto id = req->content.string();
@@ -101,7 +101,7 @@ void Note::start(int port)
     .post("^/app_url$", [this](auto *app, auto res, auto req) {
         res->write(SimpleWeb::StatusCode::success_ok); 
     })
-    .ws("^/store$", {
+    .ws("^/note$", {
         .on_open = [this](auto *app, auto conn)
         {
             using namespace std::chrono;
