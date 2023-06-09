@@ -11,7 +11,7 @@ import _ from 'lodash'
 import Snackbar from '@mui/material/Snackbar';
 import Slide from '@mui/material/Slide';
 import { useTranslation } from 'react-i18next';
-import Draggabilly from 'draggabilly'
+import Drag from './Drag'
 import MuiAlert from '@mui/material/Alert';
 import { content } from './props';
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -53,12 +53,12 @@ export default function Files() {
     }
     useEffect(unSelAll, [files])
     useEffect(()=>{
-        const draggie = new Draggabilly('#movable', {
+        const draggie = new Drag('#movable', {
             containment: '#content', 
-            handle: '#handle'
+            handle: '#handle',
+            onClick: toggleMultiSel
         });
-        draggie.on( 'staticClick', toggleMultiSel);
-        return ()=>draggie.off( 'staticClick', toggleMultiSel)
+        return ()=>draggie.dispose()
     }, [])
     const listItems = 
         sortedFile
@@ -95,13 +95,13 @@ export default function Files() {
             }}/>
             
             <Box id='movable' sx={{
-                position: 'absolute', fontSize: '2rem',
+                position: 'fixed', fontSize: '2rem',
                 top: '40%', left: '60%', cursor: 'pointer' }}>
                 <Box id="handle" sx={{
                     display: 'flex',
                     backgroundColor: 'lightGrey', p: .5, borderRadius: '1em'
                 }}>
-                    <Menu sx={{marginTop: 'auto', fontSize: '1.1em', 
+                    <Menu sx={{fontSize: '1.1em', 
                         border: `${multiSel? '2px inset' : ''}`, borderRadius: '1.0em'}}/>
                 </Box>
                 <div style={{position: 'absolute', display: 'flex', borderRadius: '.5em',

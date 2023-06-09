@@ -9,7 +9,7 @@ import util from "./util";
 import _ from 'lodash'
 import { content } from './props';
 import { useTranslation } from 'react-i18next';
-import Draggabilly from 'draggabilly'
+import Drag from './Drag'
 
 export default function Audio() {
     const [sortedFile] = useAtom(sortedFileAtom)
@@ -20,10 +20,11 @@ export default function Audio() {
     const audioFiles = useMemo(() => sortedFile.filter(fi => fi.type.includes('audio/')), [sortedFile])
     const { t, i18n } = useTranslation();
     useEffect(() => {
-        const draggie = new Draggabilly('#movable', {
+        const draggie = new Drag('#movable', {
             containment: '#content',
             handle: '#handle'
         });
+        return ()=>draggie.dispose()
     }, [])
     const listItems = audioFiles.map(fi =>
         <AudioItem key={fi.path} {...fi}
@@ -68,7 +69,7 @@ export default function Audio() {
         <Box {...content}>
             {listItems}
 
-            <Box id='movable' sx={{ position: 'absolute', top: '30%', left: '1rem', cursor: 'pointer' }}>
+            <Box id='movable' sx={{ position: 'fixed', top: '30%', left: '1rem', cursor: 'pointer' }}>
                 <Box id="handle" sx={{
                     padding: '0 1em',
                     color: 'white',

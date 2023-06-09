@@ -8,7 +8,7 @@ import util from "./util";
 import _ from 'lodash'
 
 import { useTranslation } from 'react-i18next';
-import Draggabilly from 'draggabilly'
+import Drag from './Drag'
 import { content } from './props';
 export default function Videos() {
     const [ sortedFile ] = useAtom(sortedFileAtom)
@@ -16,10 +16,11 @@ export default function Videos() {
     const [currentVideo, setCurrentVideo] = useState('');
     const { t, i18n } = useTranslation();
     useEffect(() => {
-        const draggie = new Draggabilly('#movable', {
+        const draggie = new Drag('#movable', {
             containment: '#content',
             handle: '#handle'
         });
+        return ()=>draggie.dispose()
     }, [])
     const listItems = videoFiles.map( fi =>
         <VideoItem key={fi.path} {...fi}
@@ -30,7 +31,7 @@ export default function Videos() {
     return (
         <Box {...content}>
             {listItems}
-            <Box id='movable' sx={{ position: 'absolute', top: '30%', left: '1rem', cursor: 'pointer' }}>
+            <Box id='movable' sx={{ position: 'fixed', top: '30%', left: '1rem', cursor: 'pointer' }}>
                 <Box id="handle" sx={{
                     padding: '0 1em',
                     color: 'white',

@@ -79,7 +79,7 @@ function App() {
   )
   // console.log(`progressBars=`,progressBars)
   return (
-    <Box sx={{backgroundColor: 'rgb(180, 230, 236)', minHeight: '100vh'}}>
+    <Box sx={{backgroundColor: 'rgb(180, 230, 236)', height: '100vh'}}>
       <PosBar/>
       <AppBar />
       {
