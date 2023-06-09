@@ -16,7 +16,7 @@ class Drag {
         window.addEventListener("resize", this.setMaxSize);
     }
     checkEvent(){
-        if ( util.in_mobile_or_tablet() ) {
+        if ( util.isTouchscreen() ) {
             // HACK prefer Touch Events as you can preventDefault on touchstart to
             // disable scroll in iOS & mobile Chrome metafizzy/flickity#1177
             this.activeEvents = [ 'touchstart', 'touchmove', 'touchend', 'touchcancel' ];
@@ -27,6 +27,7 @@ class Drag {
             // mouse events
             this.activeEvents = [ 'mousedown', 'mousemove', 'mouseup' ];
         }
+        console.log(this.activeEvents)
     }
     setMaxSize(){
         this.minTop = this.containmentElm.offsetTop
@@ -82,7 +83,7 @@ class Drag {
         // console.log(`this.drag=${this.drag}; this.onClick=`, this.onClick)
         if( (!this.drag) && typeof this.onClick === "function" ){
             this.onClick()
-            // alert(`mobile_or_tablet=${util.in_mobile_or_tablet()}`)
+            // alert(`isTouchscreen=${util.isTouchscreen()}`)
         } 
     }
     dispose(){
