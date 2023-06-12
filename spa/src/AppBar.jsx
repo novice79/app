@@ -1,14 +1,18 @@
 import { useState, useEffect, useRef } from 'react'
 import Box from '@mui/material/Box';
-import { Store, Upload, GetApp } from '@mui/icons-material';
+import { NoteAdd, Upload, GetApp } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import { useAtom } from 'jotai'
-import {  uploadAtom, uploadCountAtom } from './atom'
+import { Navigate, useNavigate } from 'react-router-dom';
+import { currentNoteAtom, uploadAtom, uploadCountAtom } from './atom'
 import SearchBar from './SearchBar'
 import _ from 'lodash'
 import util from "./util";
+import {Toolbar} from './style'
 export default function IconAppBar() {
   const [appUrl, setAppUrl] = useState("");
+  const [, setCurrentNote] = useAtom(currentNoteAtom)
+  const navigate = useNavigate()
   const inputFileRef = useRef( null );
   const [ upload, setUpload ] = useAtom(uploadAtom)
   const [ count, setCount ] = useAtom(uploadCountAtom)
@@ -23,7 +27,7 @@ export default function IconAppBar() {
     if(count == 0) setUpload({})
   }, [count]);
   useEffect(() => {
-    util.post_data(import.meta.env.DEV? `${debugUrl}/app_url`:'/app_url')
+    util.post_data(getUrl('/app_url'))
     .then((res) => res.text())
     .then(url => {
       // console.log(url)
@@ -53,11 +57,7 @@ export default function IconAppBar() {
     e.target.files = null
   }
   return (
-    <Box sx={{
-      bgcolor: '#222', height: '3rem', color: 'white',
-      display: 'flex', alignItems: 'center',
-      position: 'fixed', width: '100%', zIndex: 9
-      }}>
+    <Box sx={{...Toolbar}}>
         {appUrl 
           && 
           <a href={appUrl} style={{display: 'block'}}
@@ -69,13 +69,17 @@ export default function IconAppBar() {
         
         <Box sx={{ 
           flexGrow: 1, margin: '.5rem 2.5rem',
-          display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+          display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}
           onClick={()=>{
 
           }}
         >
           <SearchBar />
         </Box>
+        <NoteAdd sx={{mr: 2}} onClick={()=>{
+          setCurrentNote(null)
+          navigate('/edit')
+        }}/>
         <IconButton
           size="large"
           edge="start"

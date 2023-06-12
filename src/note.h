@@ -10,7 +10,7 @@ private:
     std::string time_to_str(std::time_t t);
     json::array notes()
     {
-        return db->exec_sql("select * from note;")["result"].as_array();
+        return db->exec_sql("select id, substr(content, 0, 150) as content, time from notes;")["result"].as_array();
     }
     void note_bc(std::string msg)
     {
