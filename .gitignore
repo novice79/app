@@ -15,6 +15,7 @@ dist/
 # *.key
 *.pem
 *.db
+*.mp4
 bak/
 node_modules/
 .vs
@@ -31,3 +32,4 @@ note.md
 copy-*.sh
 pub-stuff/
 preprocess/
+sn.sh

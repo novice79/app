@@ -28,9 +28,7 @@ const BookAtom = atom( get => {
         const bKey = `${b.title}-${b.author}`
         const aValue = progress[aKey] || ''
         const bValue = progress[bKey] || ''
-        if( aValue > bValue ) return -1;
-        if( bValue > aValue ) return 1;
-        return 0
+        return bValue.localeCompare(aValue)
     })
 })
 const uploadAtom = atom({})

@@ -26,7 +26,7 @@ cmake --build $dir
 cmake --install $dir
 
 cd spa && npm i && npm run build && cd -
-[ -x ./copy-res.sh ] && ./copy-res.sh
+
 cp -r $PWD/dist/www $PWD/dist/bin/
 printf "\nFYI:\n"
 echo "please run: ./dist/bin/app"
