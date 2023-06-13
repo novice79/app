@@ -1,7 +1,7 @@
 import {useState, useRef} from 'react'
 import { useAtom } from 'jotai'
 import { useNavigate } from "react-router-dom";
-import { noteAtom, currentNoteAtom } from './atom'
+import { notesAtom, currentNoteAtom } from './atom'
 import Box from '@mui/material/Box';
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -13,20 +13,28 @@ import util from "./util";
 
 
 export default function Notes() {
-    const [ note ] = useAtom(noteAtom)
-    const [ , setCurrentBook ] = useAtom(currentNoteAtom)
+    const [ notes ] = useAtom(notesAtom)
+    const [ , setCurrentNote ] = useAtom(currentNoteAtom)
     const [multiSel, setMultiSel] = useState(false);
     const navigate = useNavigate()
     
-    const listItems = note.map( n =>
+    const listItems = notes.map( n =>
         <Box key={`${n.id}`}
         onClick={e=>{
-            setCurrentBook(n)
-            navigate("/view");
+            util.post_data(getUrl('/get'), n.id)
+            .then((res) => res.json())
+            .then(n => {
+              setCurrentNote(n)
+              navigate("/view");
+            })
+            .catch((err) => {
+                console.log('error', err)
+                navigate("/");
+            })           
         }}
         sx={{ 
             border: '3px outset', cursor: 'pointer', display: 'flex', flexDirection: 'column',
-            position: 'relative', margin: '.4rem', width: '200px', 
+            margin: '.4rem', width: '200px', height: 'auto'
             // maxHeight: '250px', overflow: 'auto'
         }}>
             <div style={{borderBottom: '1px dotted black'}}>
@@ -45,7 +53,7 @@ export default function Notes() {
     );
     return (
         <Box id='content' sx={{ 
-            width: '100%', pt: '4.1rem',
+            width: '100%', pt: '4.1rem', alignItems: 'flex-start',
             display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'
         }}>
             {listItems}

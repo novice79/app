@@ -7,18 +7,22 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useTranslation } from 'react-i18next';
 export default function DeleteDialog(props) {
-    const { open, title, content, okCB, cancelCB } = props;
+    let { open, title, content, okCB, cancelCB } = props;
     const { t } = useTranslation();
-
+    if(content.length > 150){
+        content = `${content.slice(0, 150)} ...`
+    }
     return (
         <Dialog
             open={open}
-            onClose={cancelCB}
+            onClose={cancelCB}           
         >
             <DialogTitle>
                 {title}
             </DialogTitle>
-            <DialogContent dividers={false}>
+            <DialogContent dividers={false} 
+            // sx={{textOverflow: 'ellipsis'}}
+            >
                 <DialogContentText>
                     {content}
                 </DialogContentText>

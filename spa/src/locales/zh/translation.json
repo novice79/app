@@ -1,6 +1,6 @@
 {
-    "Font": "字体",
-    "default": "默认",
+    "not-saved": "修改未保存",
+    "leave-msg": "确认不保存离开吗？",
     "yes": "确定",
     "cancel": "取消",
     "you-sure": "你确定删除：",

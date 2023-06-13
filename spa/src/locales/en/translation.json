@@ -1,9 +1,9 @@
 {
-    "Font": "Font",
-    "default": "default",
+    "not-saved": "Changes not saved",
+    "leave-msg": "Are you sure to leave without saving?",
     "yes": "Yes",
     "cancel": "Cancel",
     "you-sure": "Are you sure to delete:",
     "Scrolled": "Scrolled",
-    "html-title": "Simple Ebook Shelf"
+    "html-title": "Note"
 }
