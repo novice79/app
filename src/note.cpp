@@ -2,21 +2,10 @@
 #include "note.h"
 
 using namespace std;
-std::string Note::time_to_str(std::time_t t)
+
+void Note::broadcast_debounce(std::function<void()> bc, int seconds)
 {
-    std::tm tm = *std::localtime(&t);
-    std::ostringstream ss;
-    ss << std::put_time(&tm, "%F %T");
-    return ss.str();
-}
-void Note::broadcast(bool immediate)
-{
-    if(immediate)
-    {
-        note_bc(json::serialize( notes() ));
-        return;
-    }
-    // throttle broadcast 2s
+    // throttle broadcast ns
     static std::atomic<bool> busy(false), pending(false);
     if(busy) 
     {
@@ -24,15 +13,15 @@ void Note::broadcast(bool immediate)
         return;
     }
     busy = true;
-    cron_job([this](auto* app){
+    cron_job([this, bc](auto* app){
         if(pending)
         {
-            note_bc(json::serialize( notes() ));
+            bc();
             pending = false;
         }
         busy = false;
-    }, bpt::seconds(2) );
-    note_bc(json::serialize( notes() ));
+    }, bpt::seconds(seconds) );
+    bc();
 }
 
 void Note::start(int port)
@@ -52,8 +41,7 @@ void Note::start(int port)
     .serve_dir("/store", store_path_, true)
     .serve_dir("/cache", cache_path_)
     .upload("^/upload$", store_path_, [this](auto *app, auto path) { 
-
-        ws_broadcast("^/note$", json::serialize(notes())); 
+        broadcast_debounce([this](){ws_broadcast("^/store$", json::serialize(fm->file_info(store_path_)));}); 
     })
     .post("^/get$", [this](auto *app, auto res, auto req) {
         auto id = req->content.string();
@@ -69,11 +57,17 @@ void Note::start(int port)
             res->write(SimpleWeb::StatusCode::client_error_bad_request, boost::lexical_cast<std::string>(r["msg"]) ); 
         }      
     })
+    .post("^/del_file$", [this](auto *app, auto res, auto req) {
+        auto path = req->content.string();
+        fs::remove_all(path);
+        ws_broadcast("^/store$", json::serialize(fm->file_info(store_path_)));
+        res->write(SimpleWeb::StatusCode::success_ok); 
+    })
     .post("^/del$", [this](auto *app, auto res, auto req) {
         auto id = req->content.string();
         auto sql{boost::format("delete from notes where id=%1%") % id};
         db->exec_sql( sql.str() );
-        broadcast(true);
+        ws_broadcast("^/note$", json::serialize( notes() ));
         res->write(SimpleWeb::StatusCode::success_ok); 
     })
     .post("^/save$", [this](auto *app, auto res, auto req) {
@@ -107,7 +101,7 @@ void Note::start(int port)
                 cout<< "last_insert_rowid()=" << id << endl;
                 res->write(id); 
             }
-            broadcast();           
+            ws_broadcast("^/note$", json::serialize( notes() ));         
         }
         catch(const exception &e) {
             res->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
@@ -122,6 +116,12 @@ void Note::start(int port)
             using namespace std::chrono;
             auto js{json::serialize( notes() )};
             conn->send(js);
+        }
+    })
+    .ws("^/store$", {
+        .on_open = [this](auto* app, auto conn){
+            string fi{json::serialize( fm->file_info(store_path_) )};
+            conn->send( fi );
         }
     })
     .cron_job([this](auto* app){

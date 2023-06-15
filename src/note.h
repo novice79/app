@@ -7,16 +7,12 @@ class Note : public BH
 private:
     fs::path www_path_, data_path_, cache_path_;
     fs::path store_path_;
-    std::string time_to_str(std::time_t t);
     json::array notes()
     {
         return db->exec_sql("select id, substr(content, 0, 150) as content, time from notes;")["result"].as_array();
     }
-    void note_bc(std::string msg)
-    {
-        ws_broadcast("^/note$", msg);
-    }
-    void broadcast(bool immediate = false);
+
+    void broadcast_debounce(std::function<void()> bc, int seconds = 2);
 public:
     Note(fs::path www_path, fs::path data_path, fs::path cache_path)
     :www_path_(std::move(www_path)),

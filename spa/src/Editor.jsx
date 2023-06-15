@@ -63,7 +63,7 @@ export default function Editor() {
         </Box>
         
       </Box>
-      <Box sx={{position: 'fixed', top: '3rem', backgroundColor: 'grey',
+      <Box id={'content'} sx={{position: 'fixed', top: '3rem', backgroundColor: 'grey',
         width: '100%', height: 'calc(100vh - 3rem)', overflow: 'auto'}}>
         <textarea style={{width: '100%', height: '99.5%', fontSize: '1.5em'}}
         value={content}

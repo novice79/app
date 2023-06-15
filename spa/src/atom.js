@@ -1,4 +1,5 @@
 import { atom } from 'jotai'
+const fileAtom = atom([])
 const noteAtom = atom([])
 const keyWordAtom = atom('')
 const currentNoteAtom = atom(null)
@@ -14,6 +15,7 @@ const notesAtom = atom( get => {
 const uploadAtom = atom({})
 const uploadCountAtom = atom(0)
 export {
+    fileAtom,
     noteAtom,
     notesAtom,
     uploadAtom,
