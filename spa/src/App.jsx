@@ -48,7 +48,7 @@ function App() {
   useEffect(() => {
     const file_ws = new WS('/store', msg=>{
       const data = JSON.parse(msg)
-      // console.log('ws data=', data)
+      // console.log('ws /store data=', data)
       setFile(data)
     })
     const note_ws = new WS('/note', msg=>{

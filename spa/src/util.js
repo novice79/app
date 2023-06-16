@@ -180,6 +180,10 @@ class Util {
             i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
     }
+    get_store_path(path) {
+        // todo: in case user create dir named store
+        return path.substring(path.lastIndexOf("/store/"));
+    }
     truncate(str, len = 7) {
         return _.truncate(str, { 'length': len });
     }

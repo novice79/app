@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import util from "../util";
 import DeleteDialog from './DeleteDialog'
+
 function ItemIcon({type}) {
     if(type == 'dir') return <Folder sx={{ color: 'rgb(199, 173, 87)' }}/>
     if(type.includes('image/')) return <Image color="secondary" />
@@ -27,7 +28,7 @@ function Preview({type, path}) {
 }
 
 export default function FileItem(props) {
-    const { name, time, path, type, size } = props;
+    const { name, time, path, type, size, insertText } = props;
     const [preview, setPreview] = useState(false);
 
     const { t } = useTranslation();
@@ -54,7 +55,15 @@ export default function FileItem(props) {
                 </div>
                 {preview && <Preview {...{type, path}}/>}
             </div>
-            <div style={{position: 'relative'}} onClick={()=>{}}>
+            <div style={{padding: '.5rem 1rem', cursor: 'pointer', transform: 'translateY(.1rem)'}} 
+                onClick={()=>{
+                    // console.log(`navigator.clipboard=${navigator.clipboard}; 
+                    // window.isSecureContext=${window.isSecureContext}`)
+                    let content = getUrl(util.get_store_path(path))
+                    content += '\r\n'
+                    insertText(content)
+                    // navigator.clipboard.writeText(content)
+                }}>
                 <ContentCopy/>
             </div>
             <DeleteDialog title={t("you-sure")} content={name} 

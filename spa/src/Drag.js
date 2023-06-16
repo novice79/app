@@ -28,7 +28,7 @@ class Drag {
             // mouse events
             this.activeEvents = [ 'mousedown', 'mousemove', 'mouseup' ];
         }
-        console.log(this.activeEvents)
+        // console.log(this.activeEvents)
     }
     setMaxSize(){
         this.minTop = this.containmentElm.offsetTop
@@ -38,7 +38,7 @@ class Drag {
         // console.log(`maxTop=${maxTop};maxLeft=${maxLeft}`)
     }
     setup(){
-        console.log('this.activeEvents=', this.activeEvents)
+        // console.log('this.activeEvents=', this.activeEvents)
         this.pos1 = this.pos2 = this.pos3 = this.pos4 = 0
         const el = this.handleElm ? this.handleElm : this.dragElm
         this.registerEvent(el, this.activeEvents[0], this.dragMouseDown) 
