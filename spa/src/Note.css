@@ -1,0 +1,10 @@
+.note:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-width: 0 1.3rem 1.3rem 0;
+    border-style: solid;
+    border-color: var(--color-note-bg) var(--color-note-bg) #d5ba36 #d5ba36;
+    display: block; width: 0;
+  }

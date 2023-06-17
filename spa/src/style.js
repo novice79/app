@@ -1,6 +1,7 @@
 const Toolbar = {
-    bgcolor: '#eee', height: '3rem',
+    bgcolor: 'var(--color-tb)', height: '3rem',
     display: 'flex', alignItems: 'center',
+    // border: 'inset',
     position: 'fixed', width: '100%', zIndex: 9
 }
 

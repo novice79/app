@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
-
+import "./Note.css"
 import { Menu } from '@mui/icons-material';
 import util from "./util";
 
@@ -20,6 +20,7 @@ export default function Notes() {
     
     const listItems = notes.map( n =>
         <Box key={`${n.id}`}
+        className="note"
         onClick={e=>{
             util.post_data(getUrl('/get'), n.id)
             .then((res) => res.json())
@@ -33,9 +34,15 @@ export default function Notes() {
             })           
         }}
         sx={{ 
-            border: '3px outset', cursor: 'pointer', display: 'flex', flexDirection: 'column',
-            margin: '.4rem', width: '200px', height: 'auto'
-            // maxHeight: '250px', overflow: 'auto'
+            // border: '2px outset white', 
+            borderRadius: '.7rem',
+            cursor: 'pointer', display: 'flex', flexDirection: 'column',
+            margin: '.4rem', width: '200px', height: 'auto', backgroundColor: 'var(--color-note)',
+            position: 'relative', 
+            // p: 1,
+            // maxHeight: '250px', 
+            // overflow: 'hidden'
+            overflowWrap: 'break-word'
         }}>
             <div style={{borderBottom: '1px dotted black'}}>
             <ReactMarkdown
@@ -54,7 +61,7 @@ export default function Notes() {
     return (
         <Box id='content' sx={{ 
             width: '100%', pt: '4.1rem', alignItems: 'flex-start',
-            display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'
+            display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around',
         }}>
             {listItems}
            

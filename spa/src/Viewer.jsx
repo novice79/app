@@ -80,7 +80,8 @@ export default function Viewer() {
 
       </Box>
       <Box ref={viewerRef} sx={{
-        position: 'fixed', top: '3rem', margin: '.5rem 1rem',
+        position: 'fixed', top: '3rem', 
+        // margin: '.5rem 1rem',
         width: '100%', height: 'calc(100vh - 3rem)', overflow: 'auto'
       }} onClick={exitFullscreen} >
         <ReactMarkdown

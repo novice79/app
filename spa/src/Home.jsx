@@ -31,7 +31,7 @@ function Home() {
   )
   // console.log(`progressBars=`,progressBars)
   return (
-    <Box sx={{backgroundColor: 'lightgray', minHeight: '100vh'}}>
+    <Box sx={{backgroundColor: 'var(--color-note-bg)', minHeight: '100vh'}}>
       <AppBar />
       <Notes />
       <Drawer

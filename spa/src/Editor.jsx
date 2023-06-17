@@ -31,6 +31,7 @@ export default function Editor() {
                   + txt 
                   + content.substring(selectionEnd, content.length);
     setContent(newValue);
+    setChanged(true)
   }
   function saveNote(e, cb) {
     if (!changed) return
@@ -84,10 +85,18 @@ export default function Editor() {
         width: '100%', height: 'calc(100vh - 3rem)', overflow: 'auto'
       }}>
         <textarea ref={taRef}
+          onDragOver={e=>{e.preventDefault();e.stopPropagation()}}
+          onDrop={e=>{
+            e.preventDefault()
+            e.stopPropagation()
+            const data = e.dataTransfer.getData("text")
+            // console.log(`onDrop, data=${data}`)
+            insertText(data)
+          }}
           style={{ width: '100%', height: '99%', fontSize: '1.5em' }}
           value={content}
           onChange={e => {
-            if (!e.target.value) return
+            // if (!e.target.value) return
             setContent(e.target.value)
             setChanged(true)
           }}

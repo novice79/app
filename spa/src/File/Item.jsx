@@ -26,7 +26,17 @@ function Preview({type, path}) {
     if(type.includes('video/')) return <video {...props} controls/>
     return <div/>
 }
+function NotePiece({name, type, path}) {
+    const url = getUrl(util.get_store_path(path))
+    if(type.includes('image/')) 
+        return `<img src="${url}" style="width:100%;"/>`
+    if(type.includes('audio/')) 
+        return `<audio src="${url}" style="width:100%;" controls/>`
+    if(type.includes('video/')) 
+        return `<video src="${url}" style="width:100%;" controls/>`
 
+    return `<a href="${url}">${name}</a>`
+}
 export default function FileItem(props) {
     const { name, time, path, type, size, insertText } = props;
     const [preview, setPreview] = useState(false);
@@ -34,7 +44,10 @@ export default function FileItem(props) {
     const { t } = useTranslation();
     
     return (
-        <Box sx={{
+        <Box draggable="true" 
+        // onDragOver={e=>e.preventDefault()}
+        onDragStart={e=>e.dataTransfer.setData("text", NotePiece(props) + '\r\n')}
+        sx={{
             display: 'flex',
             alignItems: 'center',
             textAlign: 'left',
@@ -59,8 +72,7 @@ export default function FileItem(props) {
                 onClick={()=>{
                     // console.log(`navigator.clipboard=${navigator.clipboard}; 
                     // window.isSecureContext=${window.isSecureContext}`)
-                    let content = getUrl(util.get_store_path(path))
-                    content += '\r\n'
+                    const content = NotePiece(props) + '\r\n'
                     insertText(content)
                     // navigator.clipboard.writeText(content)
                 }}>
