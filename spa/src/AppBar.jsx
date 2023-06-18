@@ -68,7 +68,7 @@ export default function IconAppBar() {
         }
         
         <Box sx={{ 
-          flexGrow: 1, margin: '.5rem 2.5rem',
+          flexGrow: 1, margin: '.5rem',
           display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}
           onClick={()=>{
 

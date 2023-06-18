@@ -29,13 +29,13 @@ function Preview({type, path}) {
 function NotePiece({name, type, path}) {
     const url = getUrl(util.get_store_path(path))
     if(type.includes('image/')) 
-        return `<img src="${url}" style="width:100%;"/>`
+        return `<img src="${url}" style="max-width:100%;"/>`
     if(type.includes('audio/')) 
-        return `<audio src="${url}" style="width:100%;" controls/>`
+        return `<audio src="${url}" style="max-width:100%;" controls></audio>`
     if(type.includes('video/')) 
-        return `<video src="${url}" style="width:100%;" controls/>`
+        return `<video src="${url}" style="max-width:100%;" controls></video>`
 
-    return `<a href="${url}">${name}</a>`
+    return `<a href="${url}" download=${name}>${name}</a>`
 }
 export default function FileItem(props) {
     const { name, time, path, type, size, insertText } = props;

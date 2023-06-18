@@ -66,14 +66,14 @@ export default function Viewer() {
 
         <Box sx={{ marginLeft: 'auto', display: 'flex' }}>
         
-          <div style={{ padding: '0 1.5rem 0', cursor: 'pointer' }} 
+          <div style={{ padding: '0 1.0rem 0 .5rem', cursor: 'pointer' }} 
             onClick={() => util.enterFullscreen(viewerRef.current)}>
             <Fullscreen />
           </div>
-          <div style={{ padding: '0 1.5rem 0', cursor: 'pointer' }} onClick={() => navigate('/edit')}>
+          <div style={{ padding: '0 1.0rem 0 .5rem', cursor: 'pointer' }} onClick={() => navigate('/edit')}>
             <Edit />
           </div>
-          <div style={{ padding: '0 1.5rem 0', cursor: 'pointer' }} onClick={() => setOpen(true)}>
+          <div style={{ padding: '0 1.0rem 0 .5rem', cursor: 'pointer' }} onClick={() => setOpen(true)}>
             <DeleteForever/>
           </div>
         </Box>

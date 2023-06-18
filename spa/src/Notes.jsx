@@ -25,6 +25,7 @@ export default function Notes() {
             util.post_data(getUrl('/get'), n.id)
             .then((res) => res.json())
             .then(n => {
+                // console.log(n)
               setCurrentNote(n)
               navigate("/view");
             })

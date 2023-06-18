@@ -15,6 +15,7 @@ class Util {
         }
     }
     exitFullscreen() {
+        if(!document.fullscreenElement) return
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.webkitExitFullscreen) { /* Safari */

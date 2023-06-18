@@ -62,7 +62,7 @@ class WS {
       h = `localhost:${port}`;
     }
     if (import.meta.env.DEV) {
-      h = `127.0.0.1:${port}`;
+      h = `192.168.0.23:${port}`;
       // console.log(`[ws_uri] app is running in development mode`)
     } else {
       // console.log(`[ws_uri] app is running in production mode`)

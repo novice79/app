@@ -16,12 +16,24 @@ export default function Editor() {
   const [content, setContent] = useState(currentNote && currentNote.content || '')
   const [open, setOpen] = useState(false);
   const [store, setStore] = useState(false);
+  const [ctrl_s, setCtrl_s] = useState('');
   const taRef = useRef();
   const { t } = useTranslation();
   const navigate = useNavigate()
   const [changed, setChanged] = useState(false)
   useEffect(() => {
-
+    saveNote()
+  }, [ctrl_s]);
+  const keydownHandler = (e) => {
+    // console.log(e)
+    if(e.key === 's' && e.ctrlKey) {
+      // console.log('ctrl+s')
+      setCtrl_s(`${Date.now()}`)
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('keydown', keydownHandler);
+    return () => document.removeEventListener('keydown', keydownHandler);
   }, []);
   function insertText(txt) {
     const selectionStart = taRef.current.selectionStart;
@@ -37,6 +49,7 @@ export default function Editor() {
     if (!changed) return
     const data = { content }
     if (currentNote) data.id = currentNote.id
+    // console.log(`saveNote, data=`, data)
     util.post_data(getUrl('/save'), JSON.stringify(data), { "Content-Type": "application/json" })
       .then((res) => res.text())
       .then(id => {
@@ -95,8 +108,12 @@ export default function Editor() {
           }}
           style={{ width: '100%', height: '99%', fontSize: '1.5em' }}
           value={content}
-          onChange={e => {
-            // if (!e.target.value) return
+          onChange={e => {            
+            if(currentNote){
+              if(currentNote.content == e.target.value) return
+            } else{
+              if (!e.target.value) return
+            }
             setContent(e.target.value)
             setChanged(true)
           }}
