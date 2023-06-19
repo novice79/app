@@ -35,7 +35,7 @@ export default function Files({insertText}) {
     return (
         <Box id='movable' sx={{
             position: 'fixed', fontSize: '1rem', borderRadius: '.5rem',
-            top: '30%', left: '30%', height: '60vh', 
+            top: '30%', left: '20%', maxHeight: '50vh', 
             overflow: 'auto'
         }}>
             <Box id="handle" sx={{

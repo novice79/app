@@ -5,14 +5,18 @@ class Util {
     uuid() {
         return uuidv1();
     }
-    enterFullscreen(elem) {
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { /* Safari */
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { /* IE11 */
-            elem.msRequestFullscreen();
-        }
+    async enterFullscreen(elem) {
+        try {
+            if (elem.requestFullscreen) {
+                await elem.requestFullscreen()
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                await elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                await elem.msRequestFullscreen();
+            }
+        } catch (err) {
+            console.log(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`)
+        }        
     }
     exitFullscreen() {
         if(!document.fullscreenElement) return

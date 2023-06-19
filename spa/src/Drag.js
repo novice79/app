@@ -17,13 +17,13 @@ class Drag {
     }
     checkEvent(){
         // https://css-tricks.com/interaction-media-features-and-their-potential-for-incorrect-assumptions/
-        if ( window.PointerEvent ) {
-            // Pointer Events
-            this.activeEvents = [ 'pointerdown', 'pointermove', 'pointerup', 'pointercancel' ];
-        }else if ( util.isTouchscreen() ) {
+        if ( util.isTouchscreen() ) {
             // HACK prefer Touch Events as you can preventDefault on touchstart to
             // disable scroll in iOS & mobile Chrome metafizzy/flickity#1177
             this.activeEvents = [ 'touchstart', 'touchmove', 'touchend', 'touchcancel' ];
+        }else if ( window.PointerEvent ) {
+            // Pointer Events
+            this.activeEvents = [ 'pointerdown', 'pointermove', 'pointerup', 'pointercancel' ];
         } else {
             // mouse events
             this.activeEvents = [ 'mousedown', 'mousemove', 'mouseup' ];

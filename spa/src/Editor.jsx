@@ -11,7 +11,7 @@ import Files from "./File/Files";
 import ConfirmDialog from './ConfirmDialog'
 
 export default function Editor() {
-  const [notes] = useAtom(noteAtom)
+  const [notes, setNotes] = useAtom(noteAtom)
   const [currentNote, setCurrentNote] = useAtom(currentNoteAtom)
   const [content, setContent] = useState(currentNote && currentNote.content || '')
   const [open, setOpen] = useState(false);
@@ -53,10 +53,11 @@ export default function Editor() {
     util.post_data(getUrl('/save'), JSON.stringify(data), { "Content-Type": "application/json" })
       .then((res) => res.text())
       .then(id => {
-        setCurrentNote({
+        const n = {
           id: currentNote ? currentNote.id : id,
           content
-        })
+        }
+        setCurrentNote(n)
         setChanged(false)
         cb && cb()
       })
@@ -106,7 +107,7 @@ export default function Editor() {
             // console.log(`onDrop, data=${data}`)
             insertText(data)
           }}
-          style={{ width: '100%', height: '99%', fontSize: '1.5em' }}
+          style={{ width: '100%', height: '99.1%', fontSize: '1.5em' }}
           value={content}
           onChange={e => {            
             if(currentNote){

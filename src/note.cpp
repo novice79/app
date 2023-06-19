@@ -47,14 +47,17 @@ void Note::start(int port)
         auto id = req->content.string();
         auto sql{boost::format("select * from notes where id=%1%") % id};
         auto r = db->exec_sql( sql.str() );      
-        if(r["ret"].as_int64() == 0)
+        if(r["result"].as_array().size() > 0)
         {
             auto n = r["result"].as_array()[0];
             res->write(json::serialize(n));
         }
         else
         {
-            res->write(SimpleWeb::StatusCode::client_error_bad_request, boost::lexical_cast<std::string>(r["msg"]) ); 
+            res->write(
+                SimpleWeb::StatusCode::client_error_bad_request, 
+                boost::str(boost::format("Note id=%1%, not exist") % id) 
+            ); 
         }      
     })
     .post("^/del_file$", [this](auto *app, auto res, auto req) {
@@ -98,7 +101,7 @@ void Note::start(int port)
                 // auto-increment id's json:value can : as_int64() but not as_uint64()
                 // also can directly boost::lexical_cast to string
                 auto id = boost::lexical_cast<std::string>(o.at("id"));
-                cout<< "last_insert_rowid()=" << id << endl;
+                // cout<< "last_insert_rowid()=" << id << endl;
                 res->write(id); 
             }
             ws_broadcast("^/note$", json::serialize( notes() ));         

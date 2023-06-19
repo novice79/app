@@ -40,7 +40,6 @@ export default function Viewer() {
   const [open, setOpen] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
   const { t } = useTranslation();
-  if (!currentNote) return <Navigate to='/' />
   useEffect(() => {
     document.onfullscreenchange = (event) => {
       if (document.fullscreenElement) {
@@ -53,10 +52,27 @@ export default function Viewer() {
     }
     return ()=>document.onfullscreenchange = null
   }, []);
-  // useEffect(() => {
-  //   if(!currentNote) return;
-  //   setCurrentNote(notes.find( n => n.id === currentNote.id ))
-  // }, [notes]);
+  useEffect(() => {
+    if(!currentNote) return;
+    // console.log(currentNote)
+    // console.log(notes)
+    const n = notes.find( n => n.id == currentNote.id )
+    if(n){
+      util.post_data(getUrl('/get'), n.id)
+        .then((res) => res.json())
+        .then(n => {
+            setCurrentNote(n)
+        })
+        .catch((err) => {
+            console.log('error', err)
+            navigate("/");
+        })
+    }else{
+      setCurrentNote(null)
+    }
+    
+  }, [notes]);
+  if (!currentNote) return <Navigate to='/' />
   return (
     <>
       <Box sx={{ ...Toolbar, display: `${fullscreen ? 'none' : 'flex'}` }}>

@@ -51,7 +51,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchBar() {
     const [ keyWord, setKeyWord ] = useAtom(keyWordAtom)
     return (
-        <Box sx={{ margin: 'auto 2.5rem' }}>
+        <Box sx={{ margin: 'auto 0.5rem' }}>
             <Search>
                 <SearchIconWrapper>
                     <SearchIcon />

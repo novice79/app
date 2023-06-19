@@ -63,7 +63,7 @@ export default function IconAppBar() {
           <a href={appUrl} style={{display: 'block'}}
             download={util.get_name_from_path(appUrl)}
             target="_blank" rel="noopener noreferrer">
-              <GetApp  size="large" sx={{ transform: 'translateY(14%)', color: 'white', m: 1 }}/>
+              <GetApp  size="large" sx={{ transform: 'translateY(14%)', color: 'purple', m: 1 }}/>
           </a>
         }
         
