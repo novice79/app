@@ -35,7 +35,7 @@ export default function Files({insertText}) {
     return (
         <Box id='movable' sx={{
             position: 'fixed', fontSize: '1rem', borderRadius: '.5rem',
-            top: '30%', left: '20%', maxHeight: '50vh', 
+            top: '30%', left: '20%', maxHeight: '55vh', 
             overflow: 'auto'
         }}>
             <Box id="handle" sx={{
@@ -57,7 +57,7 @@ export default function Files({insertText}) {
                 </div>
             </Box>
             <div style={{
-                height: 'calc(60vh - 3.5rem)', 
+                height: 'calc(55vh - 3.5rem)', 
                 overflow: 'auto'}}>
                 {listItems}
             </div>
