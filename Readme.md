@@ -16,3 +16,5 @@ Simple note app can act as note, blog, or vlog for sharing in local network
 # Download
 
 Macos/Linux version auto build in [Release](https://github.com/novice79/app/releases/tag/v1.0-note)
+
+[<img src="misc/img/google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=piaoyun.note)
