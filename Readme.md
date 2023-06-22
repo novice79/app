@@ -39,3 +39,7 @@ All floating buttons can be dragged around, so they will not cover the content y
 Macos/Linux version auto build in [Release](https://github.com/novice79/app/releases/tag/v1.0-store)
 
 [<img src="misc/img/google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=piaoyun.store)
+
+iOS version: rejected  
+Reasons:   
+*your app allows users to save or download music, video, or other media content without authorization from the relevant third-party sources.*
