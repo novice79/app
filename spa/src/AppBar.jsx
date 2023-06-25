@@ -16,13 +16,8 @@ export default function IconAppBar() {
   const inputFileRef = useRef( null );
   const [ upload, setUpload ] = useAtom(uploadAtom)
   const [ count, setCount ] = useAtom(uploadCountAtom)
-  let url = '/upload';
-  if( import.meta.env.DEV ) {
-    url = `${debugUrl}/upload`;
-    // console.log(`[IconAppBar] app is running in development mode`)
-  } else {
-    // console.log(`[IconAppBar] app is running in production mode`)
-  }
+  let url = getUrl('/upload');
+
   useEffect(() => {
     if(count == 0) setUpload({})
   }, [count]);

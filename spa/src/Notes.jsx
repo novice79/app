@@ -1,71 +1,34 @@
 import { useState, useRef } from 'react'
 import { useAtom } from 'jotai'
-import { useNavigate } from "react-router-dom";
-import { notesAtom, currentNoteAtom } from './atom'
+import { notesAtom, } from './atom'
 import Box from '@mui/material/Box';
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeRaw from 'rehype-raw'
-import "./Note.css"
-import { Menu } from '@mui/icons-material';
+
+import NoteItem from "./NoteItem"
+import { useTranslation } from 'react-i18next';
+import ConfirmDialog from './ConfirmDialog'
 import util from "./util";
 
 
 export default function Notes() {
     const [notes] = useAtom(notesAtom)
-    const [, setCurrentNote] = useAtom(currentNoteAtom)
-    const [multiSel, setMultiSel] = useState(false);
-    const navigate = useNavigate()
-
-    const listItems = notes.map(n =>
-        <Box key={`${n.id}`}
-            className="note"
-            onClick={e => {
-                util.post_data(getUrl('/get'), n.id)
-                    .then((res) => res.json())
-                    .then(n => {
-                        // console.log(`id=${n.id}; content=${n.content}`)
-                        setCurrentNote(n)
-                        navigate("/view");
-                    })
-                    .catch((err) => {
-                        console.log('error', err)
-                        navigate("/");
-                    })
-            }}
-            sx={{
-                // border: '2px outset white', 
-                borderRadius: '.7rem',
-                cursor: 'pointer', display: 'flex', flexDirection: 'column',
-                margin: '.4rem', width: '250px', height: 'auto', backgroundColor: 'var(--color-note)',
-                position: 'relative',
-                // p: 1,
-                // maxHeight: '250px', 
-                // overflow: 'hidden'
-                overflowWrap: 'break-word'
-            }}>
-            <div style={{ borderBottom: '1px dotted black' }}>
-                <ReactMarkdown
-                    linkTarget={'_blank'}
-                    children={n.content}
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeRaw, rehypeHighlight]}
-                />
-            </div>
-            <div style={{}}>
-                {n.time}
-            </div>
-        </Box>
-
-    );
+    const [toBedel, setToBedel] = useState();
+    const { t } = useTranslation();
+    const onNoteLongPress = (id, content) => {
+        console.log('longpress is triggered');
+        setToBedel({id, content})
+    };
     return (
         <Box id='content' sx={{
             width: '100%', pt: '4.1rem', alignItems: 'flex-start',
             display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around',
         }}>
-            {listItems}
-
+            {notes.map(n => <NoteItem key={`${n.id}`} {...n} onNoteLongPress={onNoteLongPress}/>)}
+        {toBedel && <ConfirmDialog open={true}
+        title={t("you-sure")} content={toBedel.content}
+        okCB={() => {
+          util.post_data(getUrl('/del'), toBedel.id)
+          setToBedel(null)
+        }} cancelCB={()=>setToBedel(null)}/>}
         </Box>
     );
 }

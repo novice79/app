@@ -16,8 +16,8 @@ window.addEventListener("languagechange", (event) => {
   console.log(`change to lng=${lng}`)
   i18n.changeLanguage(lng);
 });
-window.debugUrl = 'http://192.168.0.23:7779'
-window.getUrl = uri => import.meta.env.DEV ? `${debugUrl}${uri}` : uri
+window.debugUrl = '192.168.0.23:7779'
+window.getUrl = uri => import.meta.env.DEV ? `http://${debugUrl}${uri}` : uri
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />

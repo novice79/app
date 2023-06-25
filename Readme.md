@@ -20,4 +20,4 @@ Macos/Linux version auto build in [Release](https://github.com/novice79/app/rele
 [<img src="misc/img/google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=piaoyun.note)
 
 iOS version: rejected  
-Reasons: Spam
+Reasons: *Spam*
