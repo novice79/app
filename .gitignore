@@ -33,3 +33,4 @@ copy-*.sh
 pub-stuff/
 preprocess/
 sn.sh
+/test/
